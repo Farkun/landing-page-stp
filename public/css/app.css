@@ -1,0 +1,565 @@
+/* public/css/app.css */
+
+/* --- Variabel Warna dan Font --- */
+:root {
+    --primary-red: #B00020; 
+    --dark-red: #8A0000;    
+    --light-cream: #FFFBF5; 
+    --gray-bg: #F3F4F6;     
+    --text-color: #333;     
+    --light-text: #666;     
+    --white-text: #ffffff;
+    --font-sans: 'Inter', sans-serif; 
+}
+
+/* --- Global Reset & Base Styles --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem; 
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.btn-primary {
+    background-color: var(--white-text);
+    color: var(--dark-red);
+    font-weight: bold;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px; 
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background-color: #e0e0e0;
+}
+
+.section-title {
+    font-size: 2.5rem; 
+    font-weight: 800; 
+    text-align: center;
+    color: var(--dark-red);
+    margin-bottom: 3rem; 
+}
+
+.section-title.white {
+    color: var(--white-text);
+}
+
+/* --- 1. Header/Navbar --- */
+.main-header {
+    background-color: var(--primary-red);
+    color: var(--white-text);
+    padding: 1rem 0; 
+}
+
+
+.navbar-brand {
+    display: flex; 
+    align-items: center; 
+    gap: 0.5rem; 
+}
+
+.logo-image {
+    width: 2.5rem; 
+    height: auto; 
+}
+
+.logo-text {
+    font-size: 1.5rem; 
+    font-weight: bold;
+    color: var(--white-text); 
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem; 
+}
+
+.nav-links a:hover {
+    color: rgba(255, 255, 255, 0.7); 
+}
+
+/* --- 2. Hero Section --- */
+.hero-section {
+    background-color: var(--dark-red);
+    color: var(--white-text);
+    padding: 4rem 0; 
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    text-align: center;
+}
+
+@media (min-width: 768px) { 
+    .hero-content {
+        flex-direction: row;
+        text-align: left;
+    }
+}
+
+.hero-text {
+    flex: 1; 
+    padding-right: 2rem; 
+    margin-bottom: 2rem; 
+}
+
+@media (min-width: 768px) {
+    .hero-text {
+        margin-bottom: 0;
+    }
+}
+
+.hero-text h1 {
+    font-size: 3rem; 
+    font-weight: 800; 
+    line-height: 1.25; 
+    margin-bottom: 1rem;
+}
+
+.hero-text p {
+    font-size: 1.125rem; 
+    margin-bottom: 1.5rem; 
+}
+
+.hero-image-placeholder {
+    flex: 1; 
+    background-color: #9CA3AF; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20rem; 
+    border-radius: 0.5rem; 
+}
+
+.hero-image-placeholder svg {
+    width: 6rem; 
+    height: 6rem; 
+    color: #E5E7EB; 
+}
+
+/* --- 3. Stats/Information Section --- */
+.stats-section {
+    background-color: var(--light-cream);
+    padding: 3rem 0; 
+}
+
+.stats-grid {
+    display: flex;
+    flex-direction: column; /* Default mobile */
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    gap: 2rem; 
+}
+
+@media (min-width: 768px) {
+    .stats-grid {
+        flex-direction: row;
+    }
+}
+
+.stat-item {
+    padding: 1rem;
+}
+
+.stat-number {
+    font-size: 3rem; 
+    font-weight: bold;
+    color: var(--dark-red);
+}
+
+.stat-description {
+    color: var(--light-text);
+    margin-top: 0.5rem;
+}
+
+/* --- 4. "Dokumen PMB 2025" Section --- */
+.document-section {
+    background-color: var(--white-text);
+    padding: 4rem 0; 
+}
+
+.document-flow-container {
+    display: flex;
+    flex-direction: column; /* Default mobile */
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    gap: 2rem; 
+}
+
+@media (min-width: 768px) {
+    .document-flow-container {
+        flex-direction: row;
+    }
+    .document-flow-container::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background-color: #D1D5DB; 
+        transform: translateY(-50%);
+        z-index: 0; 
+    }
+}
+
+.document-step {
+    position: relative; 
+    z-index: 1;
+    width: 100%; /* Default mobile */
+    background-color: var(--gray-bg);
+    padding: 1.5rem; 
+    border-radius: 0.5rem; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+@media (min-width: 768px) {
+    .document-step {
+        width: 24%; 
+    }
+}
+
+.document-step:hover {
+    transform: translateY(-5px); /* Efek hover naik sedikit */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15); /* shadow-lg */
+}
+
+.document-icon {
+    color: #DC2626; 
+    font-size: 3rem; 
+    margin-bottom: 1rem;
+}
+
+.document-title {
+    font-size: 1.25rem; 
+    font-weight: 600; 
+    margin-bottom: 0.5rem;
+}
+
+.document-description {
+    color: var(--light-text);
+    font-size: 0.875rem; /* sm */
+}
+
+/* --- 5. "Tahapan Seleksi PMB STP Bogor" Section --- */
+.selection-steps-section {
+    background-color: var(--dark-red);
+    color: var(--white-text);
+    padding: 4rem 0; 
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Default 1 kolom untuk mobile */
+    gap: 2rem; 
+}
+
+@media (min-width: 768px) { /* md */
+    .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) { /* lg */
+    .steps-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1280px) { /* xl */
+    .steps-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.step-card {
+    background-color: var(--primary-red);
+    padding: 1.5rem; 
+    border-radius: 0.5rem; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.step-icon-placeholder {
+    width: 6rem; 
+    height: 6rem; 
+    background-color: #9CA3AF; 
+    border-radius: 9999px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem; /* mb-4 */
+}
+
+.step-icon-placeholder svg {
+    width: 3rem; /* w-12 */
+    height: 3rem; /* h-12 */
+    color: #E5E7EB; /* gray-200 */
+}
+
+.step-title {
+    font-size: 1.25rem; /* xl */
+    font-weight: 600; /* semibold */
+    margin-bottom: 0.5rem;
+}
+
+.step-description {
+    font-size: 0.875rem; /* sm */
+}
+
+/* --- 6. "Testimoni Alumni" Section --- */
+.testimonials-section {
+    background-color: var(--white-text);
+    padding: 4rem 0; /* py-16 */
+}
+
+.carousel-container {
+    position: relative;
+    overflow: hidden; /* Penting untuk carousel */
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.testimonial-card {
+    flex-shrink: 0; /* Penting agar card tidak menyusut */
+    width: 100%; /* Default mobile, 1 card per view */
+    padding: 1rem; /* p-4 */
+}
+
+@media (min-width: 768px) { /* md */
+    .testimonial-card {
+        width: 33.333%; /* 1/3, untuk 3 card per view */
+    }
+}
+
+.testimonial-card > div { /* Untuk semua card, termasuk photo */
+    background-color: var(--gray-bg);
+    padding: 1.5rem; /* p-6 */
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+    text-align: center;
+    height: 100%; /* Pastikan semua card tingginya sama */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Pusatkan konten vertikal */
+}
+
+.alumni-photo {
+    width: 5rem; /* w-20 */
+    height: 5rem; /* h-20 */
+    background-color: #D1D5DB; /* gray-300 */
+    border-radius: 9999px; /* rounded-full */
+    margin: 0 auto 1rem; /* mx-auto mb-4 */
+}
+
+.alumni-name {
+    font-size: 1.125rem; /* lg */
+    font-weight: 600; /* semibold */
+}
+
+.alumni-year {
+    color: var(--light-text);
+    font-size: 0.875rem; /* sm */
+    margin-bottom: 0.5rem; /* mb-2 */
+}
+
+.alumni-quote {
+    color: var(--text-color);
+    font-style: italic;
+}
+
+.carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #D1D5DB; /* gray-300 */
+    padding: 0.5rem 0.75rem; /* p-2 */
+    border-radius: 9999px; /* rounded-full */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg */
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-nav-btn:hover {
+    background-color: #A1A1A1;
+}
+
+.carousel-nav-btn.prev {
+    left: 1rem; /* left-0 */
+}
+
+.carousel-nav-btn.next {
+    right: 1rem; /* right-0 */
+}
+
+
+/* --- 7. "Mitra" Section --- */
+.partners-section {
+    background-color: var(--light-cream);
+    padding: 4rem 0; /* py-16 */
+}
+
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Default 2 kolom untuk mobile */
+    gap: 2rem; /* gap-8 */
+    align-items: center;
+    justify-items: center;
+}
+
+@media (min-width: 768px) { /* md */
+    .partners-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 1024px) { /* lg */
+    .partners-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+.partners-grid img {
+    height: 5rem; /* h-20 */
+    object-fit: contain; /* object-contain */
+    max-width: 100%; /* Agar tidak melebihi container */
+}
+
+/* --- 8. Footer --- */
+.main-footer {
+    background-color: var(--dark-red);
+    color: var(--white-text);
+    padding: 3rem 0; /* py-12 */
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 1fr; /* Default 1 kolom untuk mobile */
+    gap: 2rem; /* gap-8 */
+}
+
+@media (min-width: 768px) { /* md */
+    .footer-content {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.footer-col h3, .footer-col h4 {
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.footer-col h3 {
+    font-size: 1.25rem; /* xl */
+}
+
+.footer-col h4 {
+    font-size: 1.125rem; /* lg */
+}
+
+.footer-description, .footer-col p {
+    font-size: 0.875rem; /* sm */
+    margin-bottom: 1rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem; /* space-x-4 */
+}
+
+.social-links a:hover,
+.footer-col ul li a:hover {
+    color: rgba(255, 255, 255, 0.7); /* red-200 semacamnya */
+}
+
+.footer-bottom {
+    text-align: center;
+    font-size: 0.875rem; /* sm */
+    margin-top: 2rem; /* mt-8 */
+    padding-top: 2rem; /* pt-8 */
+    border-top: 1px solid rgba(255, 255, 255, 0.3); /* border-t border-red-700 */
+}
+
+/* Basic Responsiveness for smaller screens not explicitly handled by flex/grid */
+@media (max-width: 767px) {
+    .navbar .nav-links {
+        display: none; /* Sembunyikan menu di mobile, bisa diimplementasikan hamburger menu dengan JS */
+    }
+    .navbar {
+        justify-content: center; /* Pusatkan logo di mobile */
+    }
+    .hero-text {
+        padding-right: 0;
+    }
+    .stats-grid,
+    .document-flow-container,
+    .steps-grid,
+    .partners-grid,
+    .footer-content {
+        gap: 1.5rem; /* Sedikit lebih kecil gap di mobile */
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+}
