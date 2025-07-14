@@ -10,7 +10,7 @@
 
 <body class="font-sans antialiased">
 
-    <header class="bg-red-700 text-cream-text py-4">
+    <header class="bg-red-700 text-cream-text w-full py-4 fixed z-10">
         <nav class="container mx-auto flex justify-between items-center px-4">
             <div class="text-2xl font-bold">POLITEKNIK BOGOR</div>
             <ul class="flex space-x-6">
@@ -22,6 +22,7 @@
             </ul>
         </nav>
     </header>
+    <div style="padding-top: 64px;"></div>
 
     <section class="bg-red-800 text-cream-text py-16">
         <div class="container mx-auto flex flex-col md:flex-row items-center px-4">
@@ -63,7 +64,7 @@
             <h2 class="text-4xl font-bold text-center text-red-800 mb-12">Dokumen PMB 2025</h2>
             <div class="flex flex-col md:flex-row justify-between items-center text-center relative">
 
-                <div class="relative z-10 w-full md:w-1/4 mb-8 md:mb-0">
+                <div class="relative w-full md:w-1/4 mb-8 md:mb-0">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                         <div class="text-red-600 text-5xl mb-4 flex justify-center items-center">
                             <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
@@ -83,7 +84,7 @@
                             d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                     </svg>
                 </div>
-                <div class="relative z-10 w-full md:w-1/4 mb-8 md:mb-0">
+                <div class="relative w-full md:w-1/4 mb-8 md:mb-0">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                         <div class="text-red-600 text-5xl mb-4 flex justify-center items-center">
                             <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -104,7 +105,7 @@
                             d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                     </svg>
                 </div>
-                <div class="relative z-10 w-full md:w-1/4 mb-8 md:mb-0">
+                <div class="relative w-full md:w-1/4 mb-8 md:mb-0">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                         <div class="text-red-600 text-5xl mb-4 flex justify-center items-center">
                             <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
