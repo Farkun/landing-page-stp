@@ -13,41 +13,80 @@
     <header class="bg-red-700 text-cream-text w-full py-4 fixed z-10">
         <nav class="container mx-auto flex justify-between items-center px-4">
             <div class="text-2xl font-bold">POLITEKNIK BOGOR</div>
-            <ul class="flex space-x-6">
-                <li><a href="#" class="hover:text-red-200">Home</a></li>
-                <li><a href="#" class="hover:text-red-200">About</a></li>
-                <li><a href="#" class="hover:text-red-200">Programs</a></li>
-                <li><a href="#" class="hover:text-red-200">Admission</a></li>
-                <li><a href="#" class="hover:text-red-200">Contact</a></li>
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+            </button>
+            <ul id="main-nav-links" class="hidden md:flex space-x-6">
+                <li><a href="#home" class="hover:text-red-200">Home</a></li>
+                <li><a href="#pmb" class="hover:text-red-200">Dokumen PMB</a></li>
+                <li><a href="#tahapan" class="hover:text-red-200">Tahapan</a></li>
+                <li><a href="#mitra" class="hover:text-red-200">Mitra</a></li>
+                <li><a href="#contact" class="hover:text-red-200">Contact</a></li>
             </ul>
         </nav>
+        <div id="mobile-menu-overlay" class="md:hidden hidden bg-red-700 pb-4">
+            <ul class="flex flex-col items-center space-y-4">
+                <li><a href="#home" class="block text-cream-text hover:text-red-200 py-2">Home</a></li>
+                <li><a href="#pmb" class="block text-cream-text hover:text-red-200 py-2">Dokumen PMB</a></li>
+                <li><a href="#tahapan" class="block text-cream-text hover:text-red-200 py-2">Tahapan</a></li>
+                <li><a href="#mitra" class="block text-cream-text hover:text-red-200 py-2">Mitra</a></li>
+                <li><a href="#contact" class="block text-cream-text hover:text-red-200 py-2">Contact</a></li>
+            </ul>
+        </div>
     </header>
     <div style="padding-top: 64px;"></div>
 
-    <section class="bg-red-800 text-cream-text py-16">
-        <div class="container mx-auto flex flex-col md:flex-row items-center px-4">
-            <div class="md:w-1/2 text-left pr-8 mb-8 md:mb-0">
-                <h1 class="text-5xl font-extrabold leading-tight mb-4">POLITEKNIK BOGOR</h1>
-                <p class="text-lg mb-6">Jl. KH. R. Abdullah Bin Nuh Jl. Yasmin Raya No.16A, RT.01/RW.04, Curugmekar,
-                    Kec. Bogor Bar., Kota Bogor, Jawa Barat 16113 <br><br>
-                    Phone: 0811-1162-647</p>
-                <button
-                    class="bg-white text-red-800 font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-300">Daftar
-                    Sekarang</button>
+    <section class="bg-red-800 text-cream-text py-16 overflow-hidden relative" id="home">
+        <div id="hero-main-carousel" class="flex h-full w-full transition-transform duration-500 ease-in-out">
+
+            <div class="flex-shrink-0 w-full">
+                <div class="container mx-auto flex flex-col md:flex-row items-center px-4">
+                    <div class="md:w-1/2 text-left pr-8 mb-8 md:mb-0">
+                        <h1 class="text-5xl font-extrabold leading-tight mb-4">POLITEKNIK BOGOR</h1>
+                        <p class="text-lg mb-6">Jl. KH. R. Abdullah Bin Nuh Jl. Yasmin Raya No.16A, RT.01/RW.04,
+                            Curugmekar,
+                            Kec. Bogor Bar., Kota Bogor, Jawa Barat 16113 <br><br>
+                            Phone: 0811-1162-647</p>
+                        <a href="https://pmb.stpbogor.siakad.tech/p/registrasi.php"><button
+                                class="bg-white text-red-800 font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-300">Daftar
+                                Sekarang</button></a>
+                    </div>
+                    <div class="md:w-1/2 flex items-center justify-center h-80 rounded-lg">
+                        <img src="https://stpbogor.ac.id/wp-content/uploads/2024/09/1y-mkt-1024x1024.jpg.webp"
+                            alt=""class="w-full h-full object-contain">
+                    </div>
+                </div>
             </div>
-            <div class="md:w-1/2 bg-gray-400 flex items-center justify-center h-80 rounded-lg">
-                <svg class="w-24 h-24 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                        clip-rule="evenodd"></path>
-                </svg>
+
+            <div class="flex-shrink-0 w-full h-full">
+                <div class="container mx-auto h-96 rounded-lg">
+                    <img src="https://store.bandccamera.com/cdn/shop/articles/landscape-photography-settings-164919.jpg?v=1659674922"
+                        alt="..." class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <div class="flex-shrink-0 w-full h-full">
+                <div class="container mx-auto h-96 rounded-lg">
+                    <img src="https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/247/2024/09/24/IMG-20240924-WA0033-4132147207.jpg"
+                        alt="..." class="w-full h-full object-cover">
+                </div>
             </div>
         </div>
+
+        <button
+            class="absolute top-1/2 left-4 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full shadow-lg z-30"
+            id="prev-hero-main">‹</button>
+        <button
+            class="absolute top-1/2 right-4 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full shadow-lg z-30"
+            id="next-hero-main">›</button>
     </section>
 
     <section class="bg-yellow-50 py-12">
-        <div class="container mx-auto flex justify-around items-center text-center px-4">
+        <div class="container mx-auto flex flex-col md:flex-row justify-around items-center text-center px-4">
             <div>
                 <p class="text-5xl font-bold text-red-800">1.917.900</p>
                 <p class="text-gray-700 mt-2">Animo Pendaftaran</p>
@@ -59,13 +98,15 @@
         </div>
     </section>
 
-    <section class="bg-white py-16">
+    <section class="bg-white py-16" id="pmb">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center text-red-800 mb-12">Dokumen PMB 2025</h2>
             <div class="flex flex-col md:flex-row justify-between items-center text-center relative">
 
                 <div class="relative w-full md:w-1/4 mb-8 md:mb-0">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                        <a href="https://pmb.stpbogor.siakad.tech/p/registrasi.php" target="_blank"
+                            class="absolute inset-0 z-20"></a>
                         <div class="text-red-600 text-5xl mb-4 flex justify-center items-center">
                             <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
                                 <path
@@ -86,6 +127,8 @@
                 </div>
                 <div class="relative w-full md:w-1/4 mb-8 md:mb-0">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                        <a href="https://pmb.stpbogor.siakad.tech/admisi/bantuan/documentation.php#aktivasi"
+                            target="_blank" class="absolute inset-0 z-20"></a>
                         <div class="text-red-600 text-5xl mb-4 flex justify-center items-center">
                             <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                 <path
@@ -107,6 +150,8 @@
                 </div>
                 <div class="relative w-full md:w-1/4 mb-8 md:mb-0">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                        <a href="https://pmb.stpbogor.siakad.tech/p/login.php" target="_blank"
+                            class="absolute inset-0 z-20"></a>
                         <div class="text-red-600 text-5xl mb-4 flex justify-center items-center">
                             <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <path
@@ -121,7 +166,7 @@
         </div>
     </section>
 
-    <section class="bg-red-800 text-cream-text py-16">
+    <section class="bg-red-800 text-cream-text py-16" id="tahapan">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-12">Tahapan Seleksi PMB STP Bogor</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -134,8 +179,8 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Pendaftaran Awal</h3>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h3 class="text-xl font-semibold mb-2">Pendaftaran atau Regristasi</h3>
+                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
                 <div class="bg-red-700 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
@@ -146,8 +191,8 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Verifikasi Berkas</h3>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h3 class="text-xl font-semibold mb-2">Isi Formulir</h3>
+                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
                 <div class="bg-red-700 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
@@ -158,8 +203,8 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Ujian Seleksi</h3>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h3 class="text-xl font-semibold mb-2">Bayar Pendaftaran</h3>
+                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
                 <div class="bg-red-700 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
@@ -170,8 +215,8 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Pengumuman Hasil</h3>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h3 class="text-xl font-semibold mb-2">Isi Biodata</h3>
+                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
                 <div class="bg-red-700 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
@@ -182,8 +227,12 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Daftar Ulang</h3>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h3 class="text-xl font-semibold mb-2">
+                        Ujian Online - Jalur test
+                        <br>
+                        Upload Berkas - Jalur tanpa test
+                    </h3>
+                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
                 <div class="bg-red-700 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
@@ -194,8 +243,8 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Mulai Kuliah</h3>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h3 class="text-xl font-semibold mb-2">Pengumuman Hasil Ujian Online</h3>
+                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
             </div>
         </div>
@@ -244,7 +293,7 @@
         </div>
     </section>
 
-    <section class="bg-yellow-50 py-16">
+    <section class="bg-yellow-50 py-16" id="mitra">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center text-red-800 mb-12">Mitra</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-items-center">
@@ -264,7 +313,7 @@
         </div>
     </section>
 
-    <footer class="bg-red-800 text-cream-text py-12">
+    <footer class="bg-red-800 text-cream-text py-12" id="contact">
         <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
                 <h3 class="text-xl font-bold mb-4">POLITEKNIK BOGOR</h3>
