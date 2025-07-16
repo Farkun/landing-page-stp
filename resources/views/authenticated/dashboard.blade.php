@@ -7,22 +7,33 @@
     <title>Dashboard</title>
     <style>
         nav {
+            position: sticky;
+            background-color: white;
             width: calc(100% - 10px);
             padding: 5px;
+            z-index: 10;
         }
-        nav div {
+        nav>div {
             width: calc(100% - 20px);
             padding: 10px;
             background-color: #962F33;
             border-radius: 10px;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: space-between;
         }
-
+        button {
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
         .btn {
+            cursor: pointer;
             text-decoration: none;
             border-radius: 5px;
+            border: none;
             padding: 5px 10px;
             background-color: white;
             font-weight: 600;
@@ -39,27 +50,74 @@
             background-color: #ca2323;
         }
 
+        .color-setup {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            background-color: #848484aa;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 0 20px 1px #999 inset;
+            border-radius: 10px;
+            color: #fffffa;
+            padding: 20px;
+            translate: -100px 0;
+            transition: translate 0.3s;
+        }
         .sidebar {
-            padding: 0 5px 5px 5px;
+            position: absolute;
+            top: 5px;
+            left: 8px;
+            padding: 0 0 5px 5px;
             width: 350px;
+            transition: translate 0.3s;
         }
         .sidebar>div {
-            background-color: #962F33;
+            background-color: #848484aa;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 0 20px 1px #999 inset;
             border-radius: 10px;
-            color: #FAE2A2;
+            color: #fffffa;
             padding: 20px;
-            height: calc(100% - 33px);
+            height: calc(90dvh - 50px);
             overflow-y: scroll;
             overflow-x: hidden;
+        }
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 5px;
+            text-align: start;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            color: #fffffa;
+        }
+        .sidebar-item:hover {
+            background-color: #ddd4;
+        }
+        .sidebar-subitem {
+            text-align: start;
+            color: #fffffa;
+            padding: 5px 10px;
+        }
+        .sidebar-subitem:hover {
+            background-color: #ccc4;
         }
         .content {
-            padding: 0 5px 5px 0;
-            width: 100%;
+            padding: 0 5px 5px 5px;
+            width: calc(100% - 10px);
+            height: 100%;
         }
         .content>div {
-            height: calc(100% - 33px);
-            overflow-y: scroll;
-            overflow-x: hidden;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         ::-webkit-scrollbar {
             width: 5px;
@@ -77,26 +135,151 @@
     
     <nav>
         <div>
+            <div>
+                <button class="btn" onclick="togglSidebar()">&#9776;</button>
+            </div>
+            <div><button style="
+                color: #fffffa;
+                font-weight: 600;
+                font-size: medium;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            " onclick="toggleColorSetup()"><span>Colors</span><span style="font-size: x-small;">&#11206;</span></button></div>
             <a href="{{ route('logout') }}" class="btn btn-logout">Logout</a>
         </div>
     </nav>
 
 
     <div style="
-        display: flex;
-        height: 90dvh;
+        position: relative;
+        height: 90%;
     ">
-        <div class="sidebar">
+        <div class="color-setup" id="color-setup">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Primary:&emsp;</td>
+                        <td><input type="color" name="" id="" value="#962F33"></td>
+                    </tr>
+                    <tr>
+                        <td>Primary Content:&emsp;</td>
+                        <td><input type="color" name="" id="" value="#962F33"></td>
+                    </tr>
+                    <tr>
+                        <td>Secondary:&emsp;</td>
+                        <td><input type="color" name="" id="" value="#962F33"></td>
+                    </tr>
+                    <tr>
+                        <td>Secondary Content:&emsp;</td>
+                        <td><input type="color" name="" id="" value="#962F33"></td>
+                    </tr>
+                    <tr>
+                        <td>Accent:&emsp;</td>
+                        <td><input type="color" name="" id="" value="#962F33"></td>
+                    </tr>
+                </tbody>
+            </table>
+            {{-- <div style="display: flex; justify-content: flex-end; margin-top: 20px;"><button type="submit" class="btn">Apply</button></div> --}}
+        </div>
+
+        <div class="sidebar" id="sidebar" style="display: none;">
             <div>
-                kjznckjvnz 
+
+                <div style="
+                    margin-bottom: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                ">
+                    <label for="app_name">App Name</label>
+                    <input type="text" name="app_name" id="app_name" style="
+                        background: none;
+                        padding: 5px;
+                        border: 1px solid #fffffa;
+                        outline: none;
+                        color: #fffffa;
+                        border-radius: 5px;
+                    ">
+                </div>
+
+                <div>
+                    <button class="sidebar-item" onclick="toggleSidebarItem(this)"><span>Hero Section</span><span>&#11207;</span></button>
+                    <div style="display: none; flex-direction: column;">
+                        <button class="sidebar-subitem">aaaaaaa</button>
+                        <button class="sidebar-subitem" onclick="refreshIframe()">address</button>
+                        <button class="sidebar-subitem">aaaaaaa</button>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="content">
             <div>
-                <iframe src="/landingPage" frameborder="0" width="100%" height="100%"></iframe>
+                <iframe src="/landingPage" frameborder="0" style="
+                    height: 100%;
+                    width: calc(100% - 5px);
+                " id="iframe"></iframe>
             </div>
         </div>
     </div>
+
+    <script>
+        const load = () => {
+            const sidebarMemory = sessionStorage.getItem('sidebar')
+            const colorSetupMemory = sessionStorage.getItem('colorOverlay')
+            const sidebar = document.getElementById('sidebar') 
+            const colorSetup = document.getElementById('color-setup') 
+            if (sidebarMemory == 'none') sidebar.style.display = 'none'
+            else sidebar.style.display = ''
+            if (colorSetupMemory == 'none') colorSetup.style.display = 'none'
+            else colorSetup.style.display = ''
+        }
+        
+        const save = () => {
+            const sidebar = document.getElementById('sidebar')
+            const colorSetup = document.getElementById('color-setup')
+            sessionStorage.setItem('sidebar', sidebar.style.display)
+            sessionStorage.setItem('colorOverlay', colorSetup.style.display)
+        }
+
+        const toggleColorSetup = () => {
+            const overlay = document.getElementById('color-setup')
+            if (overlay.style.display == 'none') {
+                overlay.style.display = ''
+                setTimeout(() => overlay.style.translate = '-100px 0', 1)
+            } else {
+                overlay.style.translate = '-100px -110%'
+                setTimeout(() => overlay.style.display = 'none', 300)
+            }
+            setTimeout(() => save(), 300)
+        }
+
+        const togglSidebar = () => {
+            const sidebar = document.getElementById('sidebar')
+            if (sidebar.style.display == 'none') {
+                sidebar.style.display = ''
+                setTimeout(() => sidebar.style.translate = '0 0', 1)
+            } else {
+                sidebar.style.translate = '-110% 0'
+                setTimeout(() => sidebar.style.display = 'none', 300)
+            }
+            setTimeout(() => save(), 300)
+        }
+
+        const toggleSidebarItem = (e) => {
+            const sub = e.parentElement.children[e.parentElement.children.length - 1]
+            sub.style.display = sub.style.display == 'flex' ? 'none' : 'flex'
+            e.children[e.children.length - 1].innerHTML = sub.style.display == 'flex' ? '&#11206;' : '&#11207;'
+        }
+
+        const refreshIframe = () => {
+            const iframe = document.getElementById('iframe')
+            iframe.src = iframe.src
+        }
+
+        load()
+    </script>
 
 </body>
 </html>
