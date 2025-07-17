@@ -5,30 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            width: 100dvw;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        form {
+            width: 25rem;
+            max-width: calc(100% - 50px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px 0 #aaa;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 5px;
+            border-radius: 3px;
+            border: 1px solid #2a2a2a;
+        }
+    </style>
 </head>
-<body style="
-    padding: 0;
-    margin: 0;
-    width: 100dvw;
-    height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-">
+<body>
     
-    <form action="{{ route('login') }}" method="POST" style="
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        border: 1px solid #ddd;
-        box-shadow: 0 0 10px 0 #aaa;
-        border-radius: 5px;
-        padding: 20px;
-    ">
+    <form action="{{ route('login') }}" method="POST">
         @csrf
         <div>LOGIN</div>
         <input type="text" name="name" placeholder="Username">
