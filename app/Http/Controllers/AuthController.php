@@ -34,7 +34,7 @@ class AuthController extends Controller
     public function logout() {
         Auth::logout();
         session(['api_token' => null]);
-        return redirect()->route('login.view');
+        return redirect()->route('login');
     }
 
     public function resetPassword(Request $request) {
