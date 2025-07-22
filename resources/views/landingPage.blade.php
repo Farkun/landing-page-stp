@@ -350,10 +350,12 @@
             </div>
             <div>
                 <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
-                <p class="text-sm">Jl. Raya Bogor KM 10</p>
-                <p class="text-sm">Bogor, Jawa Barat</p>
+                <p class="text-sm">Jl. KH. R. Abdullah Bin Nuh Jl. Yasmin Raya No.16A, RT.01/RW.04,
+                            Curugmekar,</p>
+                <p class="text-sm">Kec. Bogor Bar. Kota Bogor, Jawa Barat 16113</p>
+                <br>
                 <p class="text-sm">Email: info@poltekbogor.ac.id</p>
-                <p class="text-sm">Phone: (0251) 123-4567</p>
+                <p class="text-sm">Phone: 0811-1162-647</p>
             </div>
         </div>
         <div class="text-center text-sm mt-8 pt-8" style="border-top: 1px solid {{ $app_setting->secondary_color }};">
