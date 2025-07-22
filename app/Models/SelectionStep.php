@@ -10,4 +10,6 @@ class SelectionStep extends Model
     use HasFactory;
     protected $table = 'selection_step';
     protected $guarded = [];
+
+    public $timestamps = false;
 }

@@ -18,6 +18,6 @@ class AuthenticatedMiddleware
     {
         $auth = Auth::check();
         if ($auth) return $next($request);
-        return redirect()->route('login.view');
+        return redirect()->route('login');
     }
 }

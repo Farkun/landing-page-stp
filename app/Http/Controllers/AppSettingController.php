@@ -13,16 +13,14 @@ class AppSettingController extends Controller
         ]);
     }
 
-    public function updateNameAndLogo(Request $request) {
+    public function updateAppName(Request $request) {
         $settings = AppSetting::first();
         if (!$settings) return response()->json(['message' => 'no settings found']);
         $request->validate([
-            'app_name' => 'required|string',
-            'app_logo' => 'required|string',
+            'app_name' => 'required|string'
         ]);
         $update = $settings->update([
-            'app_name' => $request->app_name,
-            'app_logo' => $request->app_logo
+            'app_name' => $request->app_name
         ]);
         if (!$update) return response()->json(['message' => 'Internal Server Error']);
         return response()->json([
@@ -61,14 +59,13 @@ class AppSettingController extends Controller
             'secondary_content_color' => 'required|string',
             'accent_color' => 'required|string'
         ]);
-        $update = $settings->update([
+        $settings->update([
             'primary_color' => $request->primary_color,
             'primary_content_color' => $request->primary_content_color,
             'secondary_color' => $request->secondary_color,
             'secondary_content_color' => $request->secondary_content_color,
             'accent_color' => $request->accent_color
         ]);
-        if (!$update) return response()->json(['message' => 'Internal Server Error']);
         return response()->json([
             'message' => 'OK',
             'payload' => true
