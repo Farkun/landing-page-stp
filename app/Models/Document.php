@@ -10,4 +10,6 @@ class Document extends Model
     use HasFactory;
     protected $table = 'document';
     protected $guarded = [];
+
+    public $timestamps = false;
 }

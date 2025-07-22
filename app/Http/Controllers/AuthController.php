@@ -25,12 +25,16 @@ class AuthController extends Controller
         if (!$valid_password) return back()->withErrors('Username or Password Invalid');
         $attempt = Auth::attempt(['name' => $request->name, 'password' => $request->password]);
         if (!$attempt) return back()->withErrors('Internal Server Error');
+        $token = $user->createToken($user->name);
+        $token = str_replace($token->accessToken->id.'|', '', $token->plainTextToken);
+        session(['api_token' => $token]);
         return redirect()->route('dashboard');
     }
-
+    
     public function logout() {
         Auth::logout();
-        return redirect()->route('login.view');
+        session(['api_token' => null]);
+        return redirect()->route('login');
     }
 
     public function resetPassword(Request $request) {
