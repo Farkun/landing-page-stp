@@ -13,12 +13,12 @@ Route::get('/', function () {
 });
 Route::get('/landingPage', [LandingPageController::class, 'index']);
 
-Route::middleware(GuestMiddleware::class)->group(function () {
+Route::middleware(['guest', 'prevent-back-history'])->group(function () {
     Route::get('/manage', [AuthController::class, 'loginView'])->name('login');
     Route::post('/manage/login', [AuthController::class, 'login'])->name('login.post');
 });
 
-Route::middleware(AuthenticatedMiddleware::class)->group(function () {
+Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/manage/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });

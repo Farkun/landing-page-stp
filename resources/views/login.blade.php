@@ -91,7 +91,7 @@
 
 <body>
     
-    <form action="{{ route('login') }}" method="POST">
+    <form action="{{ route('login.post') }}" method="POST">
         @csrf
         <img src="{{ asset('img/logo-bhs (2).png') }}" alt="" class="logo-img">
         <div>LOGIN</div>
