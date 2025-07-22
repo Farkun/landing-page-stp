@@ -10,4 +10,6 @@ class Hero extends Model
     use HasFactory;
     protected $table = 'hero';
     protected $guarded = [];
+
+    public $timestamps = false;
 }

@@ -40,7 +40,7 @@
 </head>
 <body>
     
-    <form action="{{ route('login') }}" method="POST">
+    <form action="{{ route('login.post') }}" method="POST">
         @csrf
         <div>LOGIN</div>
         <input type="text" name="name" placeholder="Username">

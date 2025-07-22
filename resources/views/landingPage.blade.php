@@ -10,9 +10,13 @@
 
 <body class="font-sans antialiased">
 
-    <header class="bg-red-700 text-cream-text w-full py-4 fixed z-10">
+    {{-- <header class="bg-red-700 text-cream-text w-full py-4 fixed z-10"> --}}
+    <header class="w-full py-4 fixed z-10" style="
+            background-color: {{ $app_setting->primary_color }};
+            color: {{ $app_setting->primary_content_color }};
+        ">
         <nav class="container mx-auto flex justify-between items-center px-4">
-            <div class="text-2xl font-bold">POLITEKNIK BOGOR</div>
+            <div class="text-2xl font-bold">{{ $app_setting->app_name }}</div>
             <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
@@ -28,19 +32,21 @@
                 <li><a href="#contact" class="hover:text-red-200">Contact</a></li>
             </ul>
         </nav>
-        <div id="mobile-menu-overlay" class="md:hidden hidden bg-red-700 pb-4">
+        <div id="mobile-menu-overlay" class="md:hidden hidden pb-4" style="
+            background-color: {{ $app_setting->primary_color }};
+        ">
             <ul class="flex flex-col items-center space-y-4">
-                <li><a href="#home" class="block text-cream-text hover:text-red-200 py-2">Home</a></li>
-                <li><a href="#pmb" class="block text-cream-text hover:text-red-200 py-2">Dokumen PMB</a></li>
-                <li><a href="#tahapan" class="block text-cream-text hover:text-red-200 py-2">Tahapan</a></li>
-                <li><a href="#mitra" class="block text-cream-text hover:text-red-200 py-2">Mitra</a></li>
-                <li><a href="#contact" class="block text-cream-text hover:text-red-200 py-2">Contact</a></li>
+                <li><a href="#home" class="block hover:text-red-200 py-2" style="color: {{ $app_setting->primary_content_color }};">Home</a></li>
+                <li><a href="#pmb" class="block hover:text-red-200 py-2" style="color: {{ $app_setting->primary_content_color }};">Dokumen PMB</a></li>
+                <li><a href="#tahapan" class="block hover:text-red-200 py-2" style="color: {{ $app_setting->primary_content_color }};">Tahapan</a></li>
+                <li><a href="#mitra" class="block hover:text-red-200 py-2" style="color: {{ $app_setting->primary_content_color }};">Mitra</a></li>
+                <li><a href="#contact" class="block hover:text-red-200 py-2" style="color: {{ $app_setting->primary_content_color }};">Contact</a></li>
             </ul>
         </div>
     </header>
     <div style="padding-top: 64px;"></div>
 
-    <section class="bg-red-800 text-cream-text py-16 overflow-hidden relative" id="home">
+    <section class="py-16 overflow-hidden relative" id="home" style="background-color: {{ $app_setting->primary_color }}; color: {{ $app_setting->primary_content_color }};">
         <div id="hero-main-carousel" class="flex h-full w-full transition-transform duration-500 ease-in-out">
 
             <div class="flex-shrink-0 w-full">
@@ -52,7 +58,7 @@
                             Kec. Bogor Bar., Kota Bogor, Jawa Barat 16113 <br><br>
                             Phone: 0811-1162-647</p>
                         <a href="https://pmb.stpbogor.siakad.tech/p/registrasi.php"><button
-                                class="bg-white text-red-800 font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-300">Daftar
+                                class="bg-white font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-300" style="color: {{ $app_setting->primary_color }}">Daftar
                                 Sekarang</button></a>
                     </div>
                     <div class="md:w-1/2 flex items-center justify-center h-80 rounded-lg">
@@ -85,14 +91,15 @@
             id="next-hero-main">›</button>
     </section>
 
-    <section class="bg-yellow-50 py-12">
+    {{-- <section class="bg-yellow-50 py-12"> --}}
+    <section class="bg-yellow-50 py-12" style="background-color: {{ $app_setting->secondary_content_color }};">
         <div class="container mx-auto flex flex-col md:flex-row justify-around items-center text-center px-4">
             <div>
-                <p class="text-5xl font-bold text-red-800">1.917.900</p>
+                <p class="text-5xl font-bold" style="color: {{ $app_setting->primary_color }};">1.917.900</p>
                 <p class="text-gray-700 mt-2">Animo Pendaftaran</p>
             </div>
             <div>
-                <p class="text-5xl font-bold text-red-800">452.867</p>
+                <p class="text-5xl font-bold" style="color: {{ $app_setting->primary_color }};">452.867</p>
                 <p class="text-gray-700 mt-2">Lulus Seleksi Adminitrasi</p>
             </div>
         </div>
@@ -100,14 +107,14 @@
 
     <section class="bg-white py-16" id="pmb">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center text-red-800 mb-12">Dokumen PMB 2025</h2>
+            <h2 class="text-4xl font-bold text-center mb-12" style="color: {{ $app_setting->primary_color }};">Dokumen PMB 2025</h2>
             <div class="flex flex-col md:flex-row justify-between items-center text-center relative">
 
                 <div class="relative w-full md:w-1/4 mb-8 md:mb-0">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                         <a href="https://pmb.stpbogor.siakad.tech/p/registrasi.php" target="_blank"
                             class="absolute inset-0 z-20"></a>
-                        <div class="text-red-600 text-5xl mb-4 flex justify-center items-center">
+                        <div class="text-5xl mb-4 flex justify-center items-center" style="color: {{ $app_setting->secondary_color }};">
                             <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
                                 <path
                                     d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z" />
@@ -118,7 +125,7 @@
                             Bogor.</p>
                     </div>
                 </div>
-                <div class="hidden md:flex items-center justify-center h-full w-12 text-red-600">
+                <div class="hidden md:flex items-center justify-center h-full w-12" style="color: {{ $app_setting->secondary_color }};">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -129,7 +136,7 @@
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                         <a href="https://pmb.stpbogor.siakad.tech/admisi/bantuan/documentation.php#aktivasi"
                             target="_blank" class="absolute inset-0 z-20"></a>
-                        <div class="text-red-600 text-5xl mb-4 flex justify-center items-center">
+                        <div class="text-5xl mb-4 flex justify-center items-center" style="color: {{ $app_setting->secondary_color }};">
                             <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                 <path
                                     d="M96 0C43 0 0 43 0 96L0 416c0 53 43 96 96 96l288 0 32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l0-64c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L384 0 96 0zm0 384l256 0 0 64L96 448c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16zm16 48l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
@@ -141,7 +148,7 @@
                             yang dikirim ke alamat email yang di daftarkan.
                     </div>
                 </div>
-                <div class="hidden md:flex items-center justify-center h-full w-12 text-red-600">
+                <div class="hidden md:flex items-center justify-center h-full w-12" style="color: {{ $app_setting->secondary_color }};">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -152,7 +159,7 @@
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                         <a href="https://pmb.stpbogor.siakad.tech/p/login.php" target="_blank"
                             class="absolute inset-0 z-20"></a>
-                        <div class="text-red-600 text-5xl mb-4 flex justify-center items-center">
+                        <div class="text-5xl mb-4 flex justify-center items-center" style="color: {{ $app_setting->secondary_color }};">
                             <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <path
                                     d="M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z" />
@@ -166,7 +173,7 @@
         </div>
     </section>
 
-    <section class="bg-red-800 text-cream-text py-16" id="tahapan">
+    <section class="py-16" id="tahapan" style="background-color:{{ $app_setting->primary_color }};color:{{ $app_setting->primary_content_color }};">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-12">Tahapan Seleksi PMB STP Bogor</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -252,7 +259,7 @@
 
     <section class="bg-white py-16">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center text-red-800 mb-12">Testimoni Alumni</h2>
+            <h2 class="text-4xl font-bold text-center mb-12" style="color:{{ $app_setting->primary_color }};">Testimoni Alumni</h2>
             <div id="testimonials-carousel" class="relative">
                 <div class="overflow-hidden">
                     <div class="flex transition-transform duration-500 ease-in-out" id="testimonial-slider">
@@ -293,9 +300,9 @@
         </div>
     </section>
 
-    <section class="bg-yellow-50 py-16" id="mitra">
+    <section class="py-16" id="mitra" style="background-color:{{ $app_setting->secondary_content_color }};">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center text-red-800 mb-12">Mitra</h2>
+            <h2 class="text-4xl font-bold text-center mb-12" style="color:{{ $app_setting->primary_color }};">Mitra</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-items-center">
                 <img src="https://via.placeholder.com/150x80?text=Logo1" alt="Partner Logo 1"
                     class="h-20 object-contain">
@@ -313,7 +320,7 @@
         </div>
     </section>
 
-    <footer class="bg-red-800 text-cream-text py-12" id="contact">
+    <footer class="py-12" id="contact" style="background-color:{{ $app_setting->primary_color }};color:{{ $app_setting->primary_content_color }};">
         <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
                 <h3 class="text-xl font-bold mb-4">POLITEKNIK BOGOR</h3>
@@ -349,7 +356,7 @@
                 <p class="text-sm">Phone: (0251) 123-4567</p>
             </div>
         </div>
-        <div class="text-center text-sm mt-8 pt-8 border-t border-red-700">
+        <div class="text-center text-sm mt-8 pt-8" style="border-top: 1px solid {{ $app_setting->secondary_color }};">
             &copy; 2025 Politeknik Bogor. All Rights Reserved.
         </div>
     </footer>

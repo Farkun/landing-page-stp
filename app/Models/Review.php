@@ -10,4 +10,6 @@ class Review extends Model
     use HasFactory;
     protected $table = 'review';
     protected $guarded = [];
+
+    public $timestamps = false;
 }

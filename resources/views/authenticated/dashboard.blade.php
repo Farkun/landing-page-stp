@@ -160,23 +160,23 @@
                 <tbody>
                     <tr>
                         <td>Primary:&emsp;</td>
-                        <td><input type="color" name="" id="" value="#962F33"></td>
+                        <td><input type="color" name="" id="input_primary_color" value="{{ $app_setting->primary_color }}" onchange="handleChangeColor()"></td>
                     </tr>
                     <tr>
                         <td>Primary Content:&emsp;</td>
-                        <td><input type="color" name="" id="" value="#962F33"></td>
+                        <td><input type="color" name="" id="input_primary_content_color" value="{{ $app_setting->primary_content_color }}" onchange="handleChangeColor()"></td>
                     </tr>
                     <tr>
                         <td>Secondary:&emsp;</td>
-                        <td><input type="color" name="" id="" value="#962F33"></td>
+                        <td><input type="color" name="" id="input_secondary_color" value="{{ $app_setting->secondary_color }}" onchange="handleChangeColor()"></td>
                     </tr>
                     <tr>
                         <td>Secondary Content:&emsp;</td>
-                        <td><input type="color" name="" id="" value="#962F33"></td>
+                        <td><input type="color" name="" id="input_secondary_content_color" value="{{ $app_setting->secondary_content_color }}" onchange="handleChangeColor()"></td>
                     </tr>
                     <tr>
                         <td>Accent:&emsp;</td>
-                        <td><input type="color" name="" id="" value="#962F33"></td>
+                        <td><input type="color" name="" id="input_accent_color" value="{{ $app_setting->accent_color }}" onchange="handleChangeColor()"></td>
                     </tr>
                 </tbody>
             </table>
@@ -193,14 +193,14 @@
                     gap: 5px;
                 ">
                     <label for="app_name">App Name</label>
-                    <input type="text" name="app_name" id="app_name" style="
+                    <input type="text" name="app_name" id="app_name" value="{{ $app_setting->app_name }}" style="
                         background: none;
                         padding: 5px;
                         border: 1px solid #fffffa;
                         outline: none;
                         color: #fffffa;
                         border-radius: 5px;
-                    ">
+                    " onchange="handleChangeAppName()">
                 </div>
 
                 <div>
@@ -225,6 +225,8 @@
     </div>
 
     <script>
+        const apiToken = @json(session('api_token'))
+        
         const load = () => {
             const sidebarMemory = sessionStorage.getItem('sidebar')
             const colorSetupMemory = sessionStorage.getItem('colorOverlay')
@@ -271,6 +273,54 @@
             const sub = e.parentElement.children[e.parentElement.children.length - 1]
             sub.style.display = sub.style.display == 'flex' ? 'none' : 'flex'
             e.children[e.children.length - 1].innerHTML = sub.style.display == 'flex' ? '&#11206;' : '&#11207;'
+        }
+
+        const handleChangeColor = async () => {
+            const primary = document.getElementById('input_primary_color').value
+            const primaryContent = document.getElementById('input_primary_content_color').value
+            const secondary = document.getElementById('input_secondary_color').value
+            const secondaryContent = document.getElementById('input_secondary_content_color').value
+            const accent = document.getElementById('input_accent_color').value
+            try {
+                const response = await fetch('/api/update-color', {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `Bearer ${apiToken}`,
+                        "Content-Type": 'application/json',
+                        "Accept": 'application/json'
+                    },
+                    body: JSON.stringify({
+                        primary_color: primary,
+                        primary_content_color: primaryContent,
+                        secondary_color: secondary,
+                        secondary_content_color: secondaryContent,
+                        accent_color: accent,
+                    })
+                })
+                const data = await response.json()
+                if (data?.payload) refreshIframe()
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
+
+        const handleChangeAppName = async () => {
+            const appName = document.getElementById('app_name').value
+            try {
+                const response = await fetch('/api/update-app-name', {
+                    method: 'PUT',
+                    headers: {
+                        "Authorization": `Bearer ${apiToken}`,
+                        "Content-Type": 'application/json',
+                        "Accept": 'application/json'
+                    },
+                    body: JSON.stringify({app_name: appName})
+                })
+                const data = await response.json()
+                if (data?.payload) refreshIframe()
+            } catch (err) {
+                console.error(err.message)
+            }
         }
 
         const refreshIframe = () => {

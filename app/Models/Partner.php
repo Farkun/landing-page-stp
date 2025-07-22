@@ -10,4 +10,6 @@ class Partner extends Model
     use HasFactory;
     protected $table = 'partner';
     protected $guarded = [];
+
+    public $timestamps = false;
 }

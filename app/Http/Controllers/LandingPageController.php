@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\AppSetting;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class LandingPageController extends Controller
 {
     public function index() {
         $app_setting = AppSetting::first();
-        return view('authenticated.dashboard', [
+        return view('landingPage', [
             'app_setting' => $app_setting
         ]);
     }
