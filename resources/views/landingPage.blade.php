@@ -6,6 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Politeknik Bogor - Official Website</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        .running {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        .running>div {
+            width: 100%;
+            flex-wrap: wrap;
+            translate: 0 0;
+        }
+    </style>
 </head>
 
 <body class="font-sans antialiased">
@@ -177,7 +190,7 @@
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-12">Tahapan Seleksi PMB STP Bogor</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <div class="bg-red-700 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -189,7 +202,7 @@
                     <h3 class="text-xl font-semibold mb-2">Pendaftaran atau Regristasi</h3>
                     <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
-                <div class="bg-red-700 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -201,7 +214,7 @@
                     <h3 class="text-xl font-semibold mb-2">Isi Formulir</h3>
                     <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
-                <div class="bg-red-700 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -213,7 +226,7 @@
                     <h3 class="text-xl font-semibold mb-2">Bayar Pendaftaran</h3>
                     <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
-                <div class="bg-red-700 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -225,7 +238,7 @@
                     <h3 class="text-xl font-semibold mb-2">Isi Biodata</h3>
                     <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
-                <div class="bg-red-700 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -241,7 +254,7 @@
                     </h3>
                     <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
-                <div class="bg-red-700 p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -303,19 +316,21 @@
     <section class="py-16" id="mitra" style="background-color:{{ $app_setting->secondary_content_color }};">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-12" style="color:{{ $app_setting->primary_color }};">Mitra</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-items-center">
-                <img src="https://via.placeholder.com/150x80?text=Logo1" alt="Partner Logo 1"
-                    class="h-20 object-contain">
-                <img src="https://via.placeholder.com/150x80?text=Logo2" alt="Partner Logo 2"
-                    class="h-20 object-contain">
-                <img src="https://via.placeholder.com/150x80?text=Logo3" alt="Partner Logo 3"
-                    class="h-20 object-contain">
-                <img src="https://via.placeholder.com/150x80?text=Logo4" alt="Partner Logo 4"
-                    class="h-20 object-contain">
-                <img src="https://via.placeholder.com/150x80?text=Logo5" alt="Partner Logo 5"
-                    class="h-20 object-contain">
-                <img src="https://via.placeholder.com/150x80?text=Logo6" alt="Partner Logo 6"
-                    class="h-20 object-contain">
+            <div class="running">
+                <div class="flex gap-8 items-center justify-center overflow-x-hidden">
+                    <img src="https://via.placeholder.com/150x80?text=Logo1" alt="Partner Logo 1"
+                        class="h-20 object-contain">
+                    <img src="https://via.placeholder.com/150x80?text=Logo2" alt="Partner Logo 2"
+                        class="h-20 object-contain">
+                    <img src="https://via.placeholder.com/150x80?text=Logo3" alt="Partner Logo 3"
+                        class="h-20 object-contain">
+                    <img src="https://via.placeholder.com/150x80?text=Logo4" alt="Partner Logo 4"
+                        class="h-20 object-contain">
+                    <img src="https://via.placeholder.com/150x80?text=Logo5" alt="Partner Logo 5"
+                        class="h-20 object-contain">
+                    <img src="https://via.placeholder.com/150x80?text=Logo6" alt="Partner Logo 6"
+                        class="h-20 object-contain">
+                </div>
             </div>
         </div>
     </section>
