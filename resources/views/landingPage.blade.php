@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Politeknik Bogor - Official Website</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <style>
         .running {
             position: relative;
@@ -24,19 +24,24 @@
 <body class="font-sans antialiased">
 
     {{-- <header class="bg-red-700 text-cream-text w-full py-4 fixed z-10"> --}}
-    <header class="w-full py-4 fixed z-10" style="
-            background-color: {{ $app_setting->primary_color }};
-            color: {{ $app_setting->primary_content_color }};
-        ">
-        <nav class="container mx-auto flex justify-between items-center px-4">
-            <div class="text-2xl font-bold">{{ $app_setting->app_name }}</div>
-            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+        <header class="w-full py-4 fixed z-40 top-0 left-0" style="
+                background-color: {{ $app_setting->primary_color }};
+                color: {{ $app_setting->primary_content_color }};
+            ">
+        <nav class="container mx-auto flex items-center px-4">
+            <div class="text-2xl font-bold flex-grow text-center md:text-left">
+                {{ $app_setting->app_name }}
+            </div>
+
+            <button id="mobile-menu-button" type="button"
+                class="md:hidden text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white transition duration-300">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
                     </path>
                 </svg>
             </button>
+
             <ul id="main-nav-links" class="hidden md:flex space-x-6">
                 <li><a href="#home" class="hover:text-red-200">Home</a></li>
                 <li><a href="#pmb" class="hover:text-red-200">Dokumen PMB</a></li>
@@ -45,15 +50,22 @@
                 <li><a href="#contact" class="hover:text-red-200">Contact</a></li>
             </ul>
         </nav>
-        <div id="mobile-menu-overlay" class="md:hidden hidden pb-4" style="
-            background-color: {{ $app_setting->primary_color }};
-        ">
-            <ul class="flex flex-col items-center space-y-4">
-                <li><a href="#home" class="block hover:text-red-200 py-2" style="color: {{ $app_setting->primary_content_color }};">Home</a></li>
-                <li><a href="#pmb" class="block hover:text-red-200 py-2" style="color: {{ $app_setting->primary_content_color }};">Dokumen PMB</a></li>
-                <li><a href="#tahapan" class="block hover:text-red-200 py-2" style="color: {{ $app_setting->primary_content_color }};">Tahapan</a></li>
-                <li><a href="#mitra" class="block hover:text-red-200 py-2" style="color: {{ $app_setting->primary_content_color }};">Mitra</a></li>
-                <li><a href="#contact" class="block hover:text-red-200 py-2" style="color: {{ $app_setting->primary_content_color }};">Contact</a></li>
+
+        <div id="mobile-menu-overlay"
+            class="md:hidden hidden pb-4 fixed left-0 w-full overflow-y-auto transition-all duration-300 ease-in-out"
+            style="
+                background-color: {{ $app_setting->primary_color }};
+                z-index: 30;
+                top: calc(1rem * 4 + 0.5rem * 2); /* py-4 (padding) + p-2 (button padding) + sedikit lebih */
+                max-height: calc(100vh - (1rem * 4 + 0.5rem * 2)); /* tinggi_layar - tinggi_navbar_fixed */
+                /* Anda bisa menyesuaikan nilai calc() ini */
+            ">
+            <ul class="flex flex-col items-center space-y-4 pt-4">
+                <li><a href="#home" class="block py-2 text-xl hover:text-red-200" style="color: {{ $app_setting->primary_content_color }};">Home</a></li>
+                <li><a href="#pmb" class="block py-2 text-xl hover:text-red-200" style="color: {{ $app_setting->primary_content_color }};">Dokumen PMB</a></li>
+                <li><a href="#tahapan" class="block py-2 text-xl hover:text-red-200" style="color: {{ $app_setting->primary_content_color }};">Tahapan</a></li>
+                <li><a href="#mitra" class="block py-2 text-xl hover:text-red-200" style="color: {{ $app_setting->primary_content_color }};">Mitra</a></li>
+                <li><a href="#contact" class="block py-2 text-xl hover:text-red-200" style="color: {{ $app_setting->primary_content_color }};">Contact</a></li>
             </ul>
         </div>
     </header>
@@ -100,11 +112,13 @@
     <section class="bg-yellow-50 py-12" style="background-color: {{ $app_setting->secondary_content_color }};">
         <div class="container mx-auto flex flex-col md:flex-row justify-around items-center text-center px-4">
             <div>
-                <p id="animo" class="text-5xl font-bold" style="color: {{ $app_setting->primary_color }};">{{ $hero->animo }}</p>
+                <p class="text-5xl font-bold" style="color: {{ $app_setting->primary_color }};">
+                    <span id="counter1" data-target="{{ $hero->animo }}">0</span></p>
                 <p class="text-gray-700 mt-2">Animo Pendaftaran</p>
             </div>
             <div>
-                <p id="selected" class="text-5xl font-bold" style="color: {{ $app_setting->primary_color }};">{{ $hero->selected }}</p>
+                <p class="text-5xl font-bold" style="color: {{ $app_setting->primary_color }};">
+                    <span id="counter2" data-target="{{ $hero->selected }}">0</span></p>
                 <p class="text-gray-700 mt-2">Lulus Seleksi Adminitrasi</p>
             </div>
         </div>
@@ -115,7 +129,7 @@
             <h2 class="text-4xl font-bold text-center mb-12" style="color: {{ $app_setting->primary_color }};">Dokumen PMB 2025</h2>
             <div class="flex flex-col md:flex-row justify-between items-center text-center relative">
 
-                <div class="relative w-full md:w-1/4 mb-8 md:mb-0">
+                <div class="relative w-full md:w-1/4 mb-8 md:mb-0" data-aos="zoom-in">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                         <a href="https://pmb.stpbogor.siakad.tech/p/registrasi.php" target="_blank"
                             class="absolute inset-0 z-20"></a>
@@ -137,7 +151,7 @@
                             d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                     </svg>
                 </div>
-                <div class="relative w-full md:w-1/4 mb-8 md:mb-0">
+                <div class="relative w-full md:w-1/4 mb-8 md:mb-0" data-aos="zoom-in">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                         <a href="https://pmb.stpbogor.siakad.tech/admisi/bantuan/documentation.php#aktivasi"
                             target="_blank" class="absolute inset-0 z-20"></a>
@@ -160,7 +174,7 @@
                             d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                     </svg>
                 </div>
-                <div class="relative w-full md:w-1/4 mb-8 md:mb-0">
+                <div class="relative w-full md:w-1/4 mb-8 md:mb-0" data-aos="zoom-in">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                         <a href="https://pmb.stpbogor.siakad.tech/p/login.php" target="_blank"
                             class="absolute inset-0 z-20"></a>
@@ -182,7 +196,7 @@
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-12">Tahapan Seleksi PMB STP Bogor</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};">
+                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -194,7 +208,7 @@
                     <h3 class="text-xl font-semibold mb-2">Pendaftaran atau Regristasi</h3>
                     <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};">
+                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -206,7 +220,7 @@
                     <h3 class="text-xl font-semibold mb-2">Isi Formulir</h3>
                     <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};">
+                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -218,7 +232,7 @@
                     <h3 class="text-xl font-semibold mb-2">Bayar Pendaftaran</h3>
                     <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};">
+                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -230,7 +244,7 @@
                     <h3 class="text-xl font-semibold mb-2">Isi Biodata</h3>
                     <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};">
+                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -246,7 +260,7 @@
                     </h3>
                     <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
                 </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};">
+                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
                     <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
@@ -267,7 +281,7 @@
             <h2 class="text-4xl font-bold text-center mb-12" style="color:{{ $app_setting->primary_color }};">Testimoni Alumni</h2>
             <div id="testimonials-carousel" class="relative">
                 <div class="overflow-hidden">
-                    <div class="flex transition-transform duration-500 ease-in-out" id="testimonial-slider">
+                    <div class="flex transition-transform duration-500 ease-in-out" id="testimonial-slider" data-aos="zoom-in">
                         <div class="w-full flex-shrink-0 md:w-1/3 p-4">
                             <div class="bg-gray-100 p-6 rounded-lg shadow-md text-center">
                                 <div class="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4"></div>
@@ -309,18 +323,18 @@
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-12" style="color:{{ $app_setting->primary_color }};">Mitra</h2>
             <div class="running">
-                <div class="flex gap-8 items-center justify-center overflow-x-hidden">
-                    <img src="https://via.placeholder.com/150x80?text=Logo1" alt="Partner Logo 1"
+                <div class="flex gap-8 items-center justify-center overflow-x-hidden" data-aos="fade-up">
+                    <img src="https://thumbs.dreamstime.com/b/hand-shake-logo-vector-flat-design-shaking-hands-symbol-handshake-logotype-concept-deal-partnership-icon-partner-agreement-123892727.jpg" alt="Partner Logo 1"
                         class="h-20 object-contain">
-                    <img src="https://via.placeholder.com/150x80?text=Logo2" alt="Partner Logo 2"
+                    <img src="https://www.shutterstock.com/image-vector/handshake-partnership-logo-design-hand-600nw-2520743481.jpg" alt="Partner Logo 2"
                         class="h-20 object-contain">
-                    <img src="https://via.placeholder.com/150x80?text=Logo3" alt="Partner Logo 3"
+                    <img src="https://t3.ftcdn.net/jpg/05/47/85/82/360_F_547858247_3pRJxIxgvDlf2HQiBlzqLfO98ncghF6J.jpg" alt="Partner Logo 3"
                         class="h-20 object-contain">
-                    <img src="https://via.placeholder.com/150x80?text=Logo4" alt="Partner Logo 4"
+                    <img src="https://media.istockphoto.com/id/1369899988/vector/handshake-sign-in-the-circle-on-white-background-vector-illustration.jpg?s=612x612&w=0&k=20&c=auA4GuM2p-EmKmEgcFjIOUibPiXsuvTxfvRKB-EN7o8=" alt="Partner Logo 4"
                         class="h-20 object-contain">
-                    <img src="https://via.placeholder.com/150x80?text=Logo5" alt="Partner Logo 5"
+                    <img src="https://t4.ftcdn.net/jpg/04/24/01/43/360_F_424014391_pIsVnz0NMtPcsVL5appIbqMrWu8bU6vA.jpg" alt="Partner Logo 5"
                         class="h-20 object-contain">
-                    <img src="https://via.placeholder.com/150x80?text=Logo6" alt="Partner Logo 6"
+                    <img src="https://www.creativefabrica.com/wp-content/uploads/2021/05/29/Partner-Logo-Symbols-Graphics-12646980-1.png" alt="Partner Logo 6"
                         class="h-20 object-contain">
                 </div>
             </div>
@@ -369,25 +383,16 @@
             &copy; 2025 Politeknik Bogor. All Rights Reserved.
         </div>
     </footer>
-
-<script>
-    const animo = document.getElementById('animo')
-    const selected = document.getElementById('selected')
-
-    const separateDigit = (number) => {
-        const str = `${number}`
-        let result = ''
-        for (let i = 1; i <= str.length; i++) {
-            if (i % 3 == 0 && i != str.length) result = `.${str[str.length - i]}${result}`
-            else result = `${str[str.length - i]}${result}`
-        }
-        return result
-    }
-
-    animo.innerHTML = separateDigit(animo.innerHTML)
-    selected.innerHTML = separateDigit(selected.innerHTML)
-</script>
-
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                AOS.init({
+                    duration: 1000, // Durasi animasi (1 detik)
+                    once: false,    // Animasi akan di-trigger setiap muncul di viewport
+                });
+            });
+    </script>
 </body>
 
 </html>
