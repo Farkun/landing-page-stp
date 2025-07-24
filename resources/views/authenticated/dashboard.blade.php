@@ -233,6 +233,24 @@
                             <label for="hero-button_url">Button URL</label>
                             <input type="text" name="hero-button_url" id="hero-button_url" value="{{ $hero->button_url }}" onchange="handleChangeGeneral(this)">
                         </div>
+                        <div class="sidebar-subitem">
+                            <label for="hero-animo">Animo</label>
+                            <input type="number" name="hero-animo" id="hero-animo" value="{{ $hero->animo }}" onchange="handleChangeGeneral(this)">
+                        </div>
+                        <div class="sidebar-subitem">
+                            <label for="hero-selected">Selected</label>
+                            <input type="number" name="hero-selected" id="hero-selected" value="{{ $hero->selected }}" onchange="handleChangeGeneral(this)">
+                        </div>
+                        <div class="sidebar-subitem">
+                            <label for="">Carousel Images</label>
+                            <div class="w-full">
+                                @foreach ($carousel_image as $image)
+                                    <img src="{{ $image->url }}" alt="" style="
+                                        width: 100%;
+                                    ">
+                                @endforeach
+                            </div>
+                        </div>
 
                     </div>
                 </div>

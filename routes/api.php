@@ -13,4 +13,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/update-hero-body', [HeroCarouselController::class, 'updateBody']);
     Route::put('/update-hero-button-label', [HeroCarouselController::class, 'updateButtonLabel']);
     Route::put('/update-hero-button-url', [HeroCarouselController::class, 'updateButtonUrl']);
+    Route::put('/update-hero-animo', [HeroCarouselController::class, 'updateAnimo']);
+    Route::put('/update-hero-selected', [HeroCarouselController::class, 'updateSelected']);
 });

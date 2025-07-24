@@ -50,4 +50,26 @@ class HeroCarouselController extends Controller
             'payload' => true
         ], 200);
     }
+
+    public function updateAnimo(Request $request) {
+        $hero = Hero::first();
+        if (!$hero) return response()->json(['message' => 'NOT FOUND'], 404);
+        $request->validate(['animo' => 'required|numeric']);
+        $hero->update(['animo' => $request->animo]);
+        return response()->json([
+            'message' => 'OK',
+            'payload' => true
+        ], 200);
+    }
+
+    public function updateSelected(Request $request) {
+        $hero = Hero::first();
+        if (!$hero) return response()->json(['message' => 'NOT FOUND'], 404);
+        $request->validate(['selected' => 'required|numeric']);
+        $hero->update(['selected' => $request->selected]);
+        return response()->json([
+            'message' => 'OK',
+            'payload' => true
+        ], 200);
+    }
 }
