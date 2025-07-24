@@ -22,7 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'auth' => \App\Http\Middleware\AuthenticatedMiddleware::class,
+            'authenticated' => \App\Http\Middleware\AuthenticatedMiddleware::class,
             'guest' => \App\Http\Middleware\GuestMiddleware::class,
             'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
         ]);

@@ -129,6 +129,9 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #525252; 
         }
+        #color-btn:hover {
+            background-color: #fffffa22;
+        }
     </style>
 </head>
 <body style="margin: 0; padding: 0; width: 100dvw; height: 100dvh; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
@@ -139,13 +142,15 @@
                 <button class="btn" onclick="togglSidebar()">&#9776;</button>
             </div>
             <div><button style="
+                padding: 5px 8px;
+                border-radius: 5px;
                 color: #fffffa;
                 font-weight: 600;
                 font-size: medium;
                 display: flex;
                 align-items: center;
                 gap: 5px;
-            " onclick="toggleColorSetup()"><span>Colors</span><span style="font-size: x-small;">&#11206;</span></button></div>
+            " onclick="toggleColorSetup()" id="color-btn"><span>Colors</span><span style="font-size: x-small;">&#11206;</span></button></div>
             <a href="{{ route('logout') }}" class="btn btn-logout">Logout</a>
         </div>
     </nav>
