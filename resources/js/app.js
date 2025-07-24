@@ -81,10 +81,103 @@ document.addEventListener('DOMContentLoaded', () => {
         const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
 
         if (mobileMenuButton && mobileMenuOverlay) {
+            mobileMenuOverlay.classList.add('opacity-0', 'h-0', 'pointer-events-none'); 
+
             mobileMenuButton.addEventListener('click', () => {
-                mobileMenuOverlay.classList.toggle('hidden'); // Menambah/menghapus kelas 'hidden'
+                if (mobileMenuOverlay.classList.contains('hidden')) {
+                    mobileMenuOverlay.classList.remove('hidden'); 
+
+                    mobileMenuOverlay.offsetHeight;
+
+                    mobileMenuOverlay.classList.remove('opacity-0', 'h-0', 'pointer-events-none');
+                    mobileMenuOverlay.classList.add('opacity-100', 'h-auto', 'pointer-events-auto'); 
+
+                } else {
+                    // Sembunyikan menu
+                    mobileMenuOverlay.classList.remove('opacity-100', 'h-auto', 'pointer-events-auto');
+                    mobileMenuOverlay.classList.add('opacity-0', 'h-0', 'pointer-events-none'); 
+
+                    mobileMenuOverlay.addEventListener('transitionend', function handler() {
+                        if (mobileMenuOverlay.classList.contains('opacity-0')) { 
+                            mobileMenuOverlay.classList.add('hidden');
+                        }
+                        mobileMenuOverlay.removeEventListener('transitionend', handler);
+                    }, { once: true });
+                }
+            });
+
+            // Optional: Close menu when a link inside is clicked (for single page navigation)
+            const mobileMenuLinks = mobileMenuOverlay.querySelectorAll('a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!mobileMenuOverlay.classList.contains('hidden')) { 
+                        mobileMenuOverlay.classList.remove('opacity-100', 'h-auto', 'pointer-events-auto');
+                        mobileMenuOverlay.classList.add('opacity-0', 'h-0', 'pointer-events-none');
+                        mobileMenuOverlay.addEventListener('transitionend', function handler() {
+                            if (mobileMenuOverlay.classList.contains('opacity-0')) {
+                                mobileMenuOverlay.classList.add('hidden');
+                            }
+                            mobileMenuOverlay.removeEventListener('transitionend', handler);
+                        }, { once: true });
+                    }
+                });
             });
         }
+
+        const counters = document.querySelectorAll('[id^="counter"]');
+
+    if (counters.length > 0) {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5 
+        };
+
+        const animateNumber = (element) => {
+            const target = parseInt(element.dataset.target);
+            const duration = 1000; 
+            let startTimestamp = null;
+
+            const formatNumber = (num) => {
+                return new Intl.NumberFormat('id-ID').format(num); 
+            };
+
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = timestamp - startTimestamp;
+                const percentage = Math.min(progress / duration, 1); 
+                const currentNumber = Math.floor(percentage * target);
+
+                element.textContent = formatNumber(currentNumber);
+
+                if (percentage < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    element.textContent = formatNumber(target); 
+                }
+            };
+
+            requestAnimationFrame(step);
+        };
+
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const targetValue = parseInt(entry.target.dataset.target);
+                    if (!isNaN(targetValue) && targetValue > 0) { 
+                         animateNumber(entry.target);
+                    } else {
+                        entry.target.textContent = new Intl.NumberFormat('id-ID').format(targetValue);
+                    }
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        counters.forEach(counter => {
+            counterObserver.observe(counter);
+        });
+    }
 
     }
 });
