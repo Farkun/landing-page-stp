@@ -76,36 +76,28 @@
 
             <div class="flex-shrink-0 w-full">
                 <div class="container mx-auto flex flex-col md:flex-row items-center px-4">
-                    <div class="md:w-1/2 text-left pr-8 mb-8 md:mb-0" data-aos="fade-up">
-                        <h1 class="text-5xl font-extrabold leading-tight mb-4">POLITEKNIK BOGOR</h1>
-                        <p class="text-lg mb-6">Jl. KH. R. Abdullah Bin Nuh Jl. Yasmin Raya No.16A, RT.01/RW.04,
-                            Curugmekar,
-                            Kec. Bogor Bar., Kota Bogor, Jawa Barat 16113 <br><br>
-                            Phone: 0811-1162-647</p>
-                        <a href="https://pmb.stpbogor.siakad.tech/p/registrasi.php"><button
-                                class="bg-white font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-300" style="color: {{ $app_setting->primary_color }}">Daftar
-                                Sekarang</button></a>
+                    <div class="md:w-1/2 text-left pr-8 mb-8 md:mb-0">
+                        <h1 class="text-5xl font-extrabold leading-tight mb-4">{{ $hero->heading }}</h1>
+                        <p class="text-lg mb-6">{!! $hero->body !!}</p>
+                        <a href="{{ $hero->button_url }}"><button
+                                class="bg-white font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-300" style="color: {{ $app_setting->primary_color }}">{{ $hero->button_label }}</button></a>
                     </div>
-                    <div class="md:w-1/2 flex items-center justify-center h-96 rounded-lg">
-                        <img src="https://stpbogor.ac.id/wp-content/uploads/2024/09/1y-mkt-1024x1024.jpg.webp"
+                    <div class="md:w-1/2 flex items-center justify-center h-80 rounded-lg">
+                        <img src="{{ $hero->image_url }}"
                             alt=""class="w-full h-full object-contain">
                     </div>
                 </div>
             </div>
 
-            <div class="flex-shrink-0 w-full h-full">
-                <div class="container mx-auto h-96 rounded-lg">
-                    <img src="https://store.bandccamera.com/cdn/shop/articles/landscape-photography-settings-164919.jpg?v=1659674922"
-                        alt="..." class="w-full h-full object-cover">
+            @foreach ($carousel_image as $image)
+                <div class="flex-shrink-0 w-full h-full">
+                    <div class="container mx-auto h-96 rounded-lg">
+                        <img src="{{ $image->url }}"
+                            alt="..." class="w-full h-full object-cover">
+                    </div>
                 </div>
-            </div>
+            @endforeach
 
-            <div class="flex-shrink-0 w-full h-full">
-                <div class="container mx-auto h-96 rounded-lg">
-                    <img src="https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/247/2024/09/24/IMG-20240924-WA0033-4132147207.jpg"
-                        alt="..." class="w-full h-full object-cover">
-                </div>
-            </div>
         </div>
 
         <button
@@ -121,12 +113,12 @@
         <div class="container mx-auto flex flex-col md:flex-row justify-around items-center text-center px-4">
             <div>
                 <p class="text-5xl font-bold" style="color: {{ $app_setting->primary_color }};">
-                    <span id="counter1" data-target="1917900">0</span></p>
+                    <span id="counter1" data-target="{{ $hero->animo }}">0</span></p>
                 <p class="text-gray-700 mt-2">Animo Pendaftaran</p>
             </div>
             <div>
                 <p class="text-5xl font-bold" style="color: {{ $app_setting->primary_color }};">
-                    <span id="counter2" data-target="452867">0</span></p>
+                    <span id="counter2" data-target="{{ $hero->selected }}">0</span></p>
                 <p class="text-gray-700 mt-2">Lulus Seleksi Adminitrasi</p>
             </div>
         </div>
@@ -391,6 +383,7 @@
             &copy; 2025 Politeknik Bogor. All Rights Reserved.
         </div>
     </footer>
+    
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
             document.addEventListener("DOMContentLoaded", function () {

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppSettingController;
+use App\Http\Controllers\HeroCarouselController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -8,4 +9,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/tes', [AppSettingController::class, 'tes']);
     Route::put('/update-color', [AppSettingController::class, 'updateColors']);
     Route::put('/update-app-name', [AppSettingController::class, 'updateAppName']);
+    Route::put('/update-hero-heading', [HeroCarouselController::class, 'updateHeading']);
+    Route::put('/update-hero-body', [HeroCarouselController::class, 'updateBody']);
+    Route::put('/update-hero-button-label', [HeroCarouselController::class, 'updateButtonLabel']);
+    Route::put('/update-hero-button-url', [HeroCarouselController::class, 'updateButtonUrl']);
+    Route::put('/update-hero-animo', [HeroCarouselController::class, 'updateAnimo']);
+    Route::put('/update-hero-selected', [HeroCarouselController::class, 'updateSelected']);
 });
