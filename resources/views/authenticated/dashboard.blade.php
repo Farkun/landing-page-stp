@@ -102,9 +102,8 @@
             text-align: start;
             color: #fffffa;
             padding: 5px 10px;
-        }
-        .sidebar-subitem:hover {
-            background-color: #ccc4;
+            display: flex;
+            flex-direction: column;
         }
         .content {
             padding: 0 5px 5px 5px;
@@ -131,6 +130,19 @@
         }
         #color-btn:hover {
             background-color: #fffffa22;
+        }
+        input,
+        textarea {
+            background: none;
+            padding: 5px;
+            border: 1px solid #fffffa;
+            outline: none;
+            color: #fffffa;
+            border-radius: 5px;
+        }
+        input[type='color'] {
+            padding: 0;
+            border: none;
         }
     </style>
 </head>
@@ -198,22 +210,30 @@
                     gap: 5px;
                 ">
                     <label for="app_name">App Name</label>
-                    <input type="text" name="app_name" id="app_name" value="{{ $app_setting->app_name }}" style="
-                        background: none;
-                        padding: 5px;
-                        border: 1px solid #fffffa;
-                        outline: none;
-                        color: #fffffa;
-                        border-radius: 5px;
-                    " onchange="handleChangeAppName()">
+                    <input type="text" name="app_name" id="app_name" value="{{ $app_setting->app_name }}" onchange="handleChangeAppName()">
                 </div>
 
                 <div>
                     <button class="sidebar-item" onclick="toggleSidebarItem(this)"><span>Hero Section</span><span>&#11207;</span></button>
                     <div style="display: none; flex-direction: column;">
-                        <button class="sidebar-subitem">aaaaaaa</button>
-                        <button class="sidebar-subitem" onclick="refreshIframe()">address</button>
-                        <button class="sidebar-subitem">aaaaaaa</button>
+
+                        <div class="sidebar-subitem">
+                            <label for="hero-heading">Heading</label>
+                            <input type="text" name="hero-heading" id="hero-heading" value="{{ $hero->heading }}" onchange="handleChangeGeneral(this)">
+                        </div>
+                        <div class="sidebar-subitem">
+                            <label for="hero-body">Body</label>
+                            <textarea name="hero-body" id="hero-body" onchange="handleChangeGeneral(this)" onkeydown="tabTextarea(this)">{{ $hero->body }}</textarea>
+                        </div>
+                        <div class="sidebar-subitem">
+                            <label for="hero-button_label">Button Label</label>
+                            <input type="text" name="hero-button_label" id="hero-button_label" value="{{ $hero->button_label }}" onchange="handleChangeGeneral(this)">
+                        </div>
+                        <div class="sidebar-subitem">
+                            <label for="hero-button_url">Button URL</label>
+                            <input type="text" name="hero-button_url" id="hero-button_url" value="{{ $hero->button_url }}" onchange="handleChangeGeneral(this)">
+                        </div>
+
                     </div>
                 </div>
 
@@ -328,9 +348,46 @@
             }
         }
 
+        const handleChangeGeneral = async (e) => {
+            const url = `/api/update-${e.name.replaceAll('_', '-')}`
+            const column = e.name.split('-')[1]
+            const value = e.value.replaceAll('\n', '<br>').replaceAll('\t', '&emsp;')
+            try {
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        "Authorization": `Bearer ${apiToken}`,
+                        "Content-Type": 'application/json',
+                        "Accept": 'application/json',
+                    },
+                    body: JSON.stringify({[column]: value})
+                })
+                const data = await response.json()
+                if (data?.payload) refreshIframe()
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
+
         const refreshIframe = () => {
             const iframe = document.getElementById('iframe')
             iframe.src = iframe.src
+        }
+
+        const overview = (e) => {
+            console.log(e.value.replaceAll('\n', '<br>').replaceAll('\t', '&emsp;'))
+        }
+
+        const tabTextarea = (e) => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const textarea = this;
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+
+                textarea.value = textarea.value.substring(0, start) + '\t' + textarea.value.substring(end);
+                textarea.selectionStart = textarea.selectionEnd = start + 1;
+            }
         }
 
         load()
