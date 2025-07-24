@@ -151,7 +151,6 @@
                 align-items: center;
                 gap: 5px;
             " onclick="toggleColorSetup()" id="color-btn"><span>Colors</span><span style="font-size: x-small;">&#11206;</span></button></div>
-            <button onclick="tes()">lkcnv</button>
             <a href="{{ route('logout') }}" class="btn btn-logout">Logout</a>
         </div>
     </nav>
@@ -324,22 +323,6 @@
                 })
                 const data = await response.json()
                 if (data?.payload) refreshIframe()
-            } catch (err) {
-                console.error(err.message)
-            }
-        }
-
-        const tes = async () => {
-            try {
-                const response = await fetch('/api/tes', {
-                    headers: {
-                        "Authorization": `Bearer ${apiToken}`,
-                        "Content-Type": 'application/json',
-                        "Accept": 'application/json'
-                    }
-                })
-                const data = await response.json()
-                console.log(data)
             } catch (err) {
                 console.error(err.message)
             }
