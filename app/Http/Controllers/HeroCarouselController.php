@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CarouselImage;
 use App\Models\Hero;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
 
 class HeroCarouselController extends Controller
 {
@@ -72,4 +75,36 @@ class HeroCarouselController extends Controller
             'payload' => true
         ], 200);
     }
+
+    public function addCarousel(Request $request) {
+        $request->validate([
+            'file' => 'required|mimes:jpg,jpeg,png'
+        ]);
+        $target_dir = storage_path('app/public/carousel');
+        if (!File::exists($target_dir)) File::makeDirectory($target_dir, 0755, true);
+        $filename = $request->file('file')->hashName();
+        $request->file('file')->move($target_dir, $filename);
+        CarouselImage::create([
+            'url' => "/storage/carousel/$filename"
+        ]);
+        return response()->json([
+            'message' => 'CREATED',
+            'payload' => true
+        ], 201);
+    }
+
+    public function deleteCarousel($id) {
+        $carousel = CarouselImage::find(Crypt::decryptString($id));
+        if (!$carousel) return response()->json([
+            'message' => 'NOT FOUND'
+        ], 404);
+        $file_path = storage_path(str_replace('/storage', 'app/public',$carousel->url));
+        if (File::exists($file_path)) File::delete($file_path);
+        $carousel->delete();
+        return response()->json([
+            'message' => 'NO CONTENT',
+            'payload' => true
+        ], 204);
+    }
+
 }
