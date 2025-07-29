@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppSettingController;
 use App\Http\Controllers\HeroCarouselController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,4 +23,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-partners', [PartnerController::class, 'get']);
     Route::post('/add-partners', [PartnerController::class, 'store']);
     Route::delete('/delete-partners', [PartnerController::class, 'delete']);
+
+    Route::get('/get-reviews', [ReviewController::class, 'get']);
+    Route::post('/add-reviews', [ReviewController::class, 'store']);
+    Route::delete('/delete-reviews', [ReviewController::class, 'delete']);
 });
