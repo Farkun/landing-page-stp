@@ -144,6 +144,44 @@
             padding: 0;
             border: none;
         }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 0 10px 10px 10px;
+            border: 1px solid #888;
+            width: 30%; /* Could be more or less, depending on screen size */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body style="margin: 0; padding: 0; width: 100dvw; height: 100dvh; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
@@ -243,6 +281,9 @@
                         </div>
                         <div class="sidebar-subitem">
                             <label for="">Carousel Images</label>
+                            <div style="width: 100%;padding-bottom: 5px;">
+                                <button style="background-color: #fffffa;width:100%;" id="myBtn">+</button>
+                            </div>
                             <div class="w-full">
                                 @foreach ($carousel_image as $image)
                                     <img src="{{ $image->url }}" alt="" style="
@@ -263,6 +304,21 @@
                     height: 100%;
                     width: calc(100% - 5px);
                 " id="iframe"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div>
+                <div class="close">&times;</div>
+            </div>
+            <div style="display:flex;flex-direction:column;color:#2a2a2a">
+                <img src="" alt="" id="preview-add-carousel" style="display: none;">
+                <input type="file" name="file" id="add-carousel" onchange="previewImage(this)" accept="image/*" style="color: #2a2a2a;">
+                <div style="display:flex;justify-content:flex-end;">
+                    <button class="btn" style="background-color: #22aa2a;color:#fffffa;" onclick="addCarousel()">Submit</button>
+                </div>
             </div>
         </div>
     </div>
@@ -387,13 +443,30 @@
             }
         }
 
+        const addCarousel = async () => {
+            const file = document.getElementById('add-carousel').files[0]
+            const formData = new FormData()
+            formData.append('file', file)
+            try {
+                const response = await fetch('/api/add-carousel', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Content-Type': 'multipart/form-data',
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                const data = await response.json()
+                if (data?.payload) refreshIframe()
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
+
         const refreshIframe = () => {
             const iframe = document.getElementById('iframe')
             iframe.src = iframe.src
-        }
-
-        const overview = (e) => {
-            console.log(e.value.replaceAll('\n', '<br>').replaceAll('\t', '&emsp;'))
         }
 
         const tabTextarea = (e) => {
@@ -408,7 +481,43 @@
             }
         }
 
+        const previewImage = (e) => {
+            const preview = document.getElementById('preview-add-carousel')
+            const file = e.files[0]
+            if (file) {
+                const url = URL.createObjectURL(file)
+                preview.src = url
+                preview.style.display = ''
+            }
+        }
+
         load()
+    </script>
+    <script>
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function() {
+        modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+        modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        }
     </script>
 
 </body>
