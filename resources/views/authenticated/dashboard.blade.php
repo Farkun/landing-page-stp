@@ -296,6 +296,43 @@
                     </div>
                 </div>
 
+                <div>
+                    <button class="sidebar-item" onclick="toggleSidebarItem(this)"><span>Document Section</span><span>&#11207;</span></button>
+                    <div style="display: none; flex-direction: column;">
+
+                        @foreach ($documents as $index => $document)
+                        <div class="sidebar-subitem">
+                            <label for="document-title{{ $document->id }}">Text Title{{ $index + 1 }}</label>
+                            <input type="text"
+                                name="document-title{{ $document->id }}"
+                                id="document-title{{ $document->id }}"
+                                value="{{ $document->title }}"
+                                data-id="{{ $document->id }}"
+                                onchange="handleChangeDocument(this)">
+                        </div>
+
+                        <div class="sidebar-subitem">
+                            <label for="document-description{{ $document->id }}">Text Description{{ $index + 1 }}</label>
+                            <textarea name="document-description{{ $document->id }}"
+                                    id="document-description{{ $document->id }}"
+                                    data-id="{{ $document->id }}"
+                                    onchange="handleChangeDocument(this)"
+                                    onkeydown="tabTextarea(this)">{{ $document->description }}</textarea>
+                        </div>
+
+                        <div class="sidebar-subitem">
+                            <label for="document-url{{ $document->id }}">Text URL{{ $index + 1 }}</label>
+                            <input type="text"
+                                name="document-url{{ $document->id }}"
+                                id="document-url{{ $document->id }}"
+                                value="{{ $document->url }}"
+                                data-id="{{ $document->id }}"
+                                onchange="handleChangeDocument(this)">
+                        </div>
+                    @endforeach
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="content">
@@ -463,6 +500,33 @@
                 console.error(err.message)
             }
         }
+
+        const handleChangeDocument = async (e) => {
+        const id = e.dataset.id; // ID document
+        const parts = e.name.split('-');
+        const field = parts[1].replace(/\d+$/, ''); // hapus angka di akhir
+
+        const value = e.value.replaceAll('\n', '<br>').replaceAll('\t', '&emsp;');
+
+        try {
+            const response = await fetch(`/api/update-document/${id}`, {
+                method: 'PUT',
+                headers: {
+                    "Authorization": `Bearer ${apiToken}`,
+                    "Content-Type": 'application/json',
+                    "Accept": 'application/json',
+                },
+                body: JSON.stringify({ [field]: value })
+            });
+
+            const data = await response.json();
+            if (data?.payload) refreshIframe();
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
+
+
 
         const refreshIframe = () => {
             const iframe = document.getElementById('iframe')
