@@ -76,13 +76,13 @@
 
             <div class="flex-shrink-0 w-full">
                 <div class="container mx-auto flex flex-col md:flex-row items-center px-4">
-                    <div class="md:w-1/2 text-left pr-8 mb-8 md:mb-0">
+                    <div class="md:w-1/2 text-left pr-8 mb-8 md:mb-0" data-aos="fade-up">
                         <h1 class="text-5xl font-extrabold leading-tight mb-4">{{ $hero->heading }}</h1>
                         <p class="text-lg mb-6">{!! $hero->body !!}</p>
                         <a href="{{ $hero->button_url }}"><button
                                 class="bg-white font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-300" style="color: {{ $app_setting->primary_color }}">{{ $hero->button_label }}</button></a>
                     </div>
-                    <div class="md:w-1/2 flex items-center justify-center h-80 rounded-lg">
+                    <div class="md:w-1/2 flex items-center justify-center h-96 rounded-lg">
                         <img src="{{ $hero->image_url }}"
                             alt=""class="w-full h-full object-contain">
                     </div>
