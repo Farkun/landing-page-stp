@@ -168,6 +168,69 @@
             flex-direction: column;
         }
 
+        .modal-review {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+
+            /* Flex center */
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Konten modal review */
+        .modal-review .modal-content {
+            background: #fefefe;
+            padding: 20px;
+            border-radius: 8px;
+            width: 30%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            color: #2a2a2a
+        }
+
+        /* Tombol close di pojok kanan atas */
+        .modal-review .close {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Form styling sederhana */
+        .modal-review form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-review input, 
+        .modal-review textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            color: #2a2a2a; 
+            background-color: #fff; 
+        }
+
+        .modal-review button {
+            background-color: #22aa2a;
+            color: white;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
         /* The Close Button */
         .close {
             color: #aaa;
@@ -296,7 +359,7 @@
                     </div>
                 </div>
 
-                <div>
+                 <div>
                     <button class="sidebar-item" onclick="toggleSidebarItem(this)"><span>Document Section</span><span>&#11207;</span></button>
                     <div style="display: none; flex-direction: column;">
 
@@ -333,6 +396,72 @@
                     </div>
                 </div>
 
+                <div>
+                    <button class="sidebar-item" onclick="toggleSidebarItem(this)">
+                        <span>Review Section</span><span>&#11207;</span>
+                    </button>
+
+                    <div style="display: none; flex-direction: column;">
+
+                        {{-- Dropdown untuk pilih Review berdasarkan ID --}}
+                        <div class="sidebar-subitem">
+                            <label for="review-select">Pilih Review</label>
+                            <select id="review-select" onchange="handleSelectReview(this)">
+                                @foreach ($reviews as $review)
+                                    <option value="{{ $review->id }}">
+                                        #{{ $loop->iteration }} - {{ $review->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Form Edit Review --}}
+                        <div id="review-form">
+                            <div class="sidebar-subitem">
+                                <label>Nama Alumni</label>
+                                <input 
+                                    type="text" 
+                                    id="review-name" 
+                                    name="review-name" 
+                                    data-id="" 
+                                    onchange="handleChangeReview(this)">
+                            </div>
+
+                            <div class="sidebar-subitem">
+                                <label>Angkatan</label>
+                                <input 
+                                    type="text" 
+                                    id="review-batch" 
+                                    name="review-batch" 
+                                    data-id="" 
+                                    onchange="handleChangeReview(this)">
+                            </div>
+
+                            <div class="sidebar-subitem">
+                                <label>Message</label>
+                                <textarea 
+                                    id="review-message" 
+                                    name="review-message" 
+                                    data-id="" 
+                                    onchange="handleChangeReview(this)" 
+                                    onkeydown="tabTextarea(this)"></textarea>
+                            </div>
+                            <div class="sidebar-subitem">
+                                <!-- Tombol untuk buka modal -->
+                                <button id="btnAddReview" class="btn-add-review">+ Tambah Review</button>
+                            </div>
+
+                            <!-- Tombol Delete -->
+                            <div class="sidebar-subitem" id="delete-review-wrapper" style="display:none;">
+                                <button onclick="deleteReview()" class="btn-delete-review" style="background-color:red;color:white;">
+                                    Hapus Review
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </div>
+    
+                </div>
             </div>
         </div>
         <div class="content">
@@ -357,6 +486,36 @@
                     <button class="btn" style="background-color: #22aa2a;color:#fffffa;" onclick="addCarousel()">Submit</button>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="modalAddReview" class="modal-review">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 style="text-align:center; margin-bottom: 15px;">Tambah Review Alumni</h3>
+
+            <form id="addReviewForm">
+                <div class="form-group">
+                    <label for="add-review-name">Nama Alumni</label>
+                    <input type="text" name="name" id="add-review-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="add-review-image">Foto Alumni</label>
+                    <input type="file" name="image" id="add-review-image" accept="image/*" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="add-review-batch">Angkatan</label>
+                    <input type="text" name="graduated_at" id="add-review-batch" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="add-review-message">Pesan</label>
+                    <textarea name="message" id="add-review-message" rows="4" required></textarea>
+                </div>
+
+                <button type="submit">Simpan</button>
+            </form>
         </div>
     </div>
 
@@ -501,6 +660,132 @@
             }
         }
 
+        let reviews = @json($reviews);
+
+        function handleSelectReview(select) {
+            const id = parseInt(select.value);
+            const review = reviews.find(r => r.id === id);
+
+            if (review) {
+                // Isi form dengan data review
+                document.getElementById('review-name').value = review.name ?? '';
+                document.getElementById('review-batch').value = review.graduated_at ?? '';
+                document.getElementById('review-message').value = review.message ?? '';
+
+                // Set data-id agar handleChangeReview & delete tahu review mana yang diupdate
+                document.getElementById('review-name').dataset.id = id;
+                document.getElementById('review-batch').dataset.id = id;
+                document.getElementById('review-message').dataset.id = id;
+
+                // Tampilkan tombol delete
+                document.getElementById('delete-review-wrapper').style.display = 'block';
+            } else {
+                // Kosongkan form
+                document.getElementById('review-name').value = '';
+                document.getElementById('review-batch').value = '';
+                document.getElementById('review-message').value = '';
+
+                // Kosongkan data-id
+                document.getElementById('review-name').dataset.id = '';
+                document.getElementById('review-batch').dataset.id = '';
+                document.getElementById('review-message').dataset.id = '';
+
+                // Sembunyikan tombol delete
+                document.getElementById('delete-review-wrapper').style.display = 'none';
+            }
+        }
+
+
+        async function handleChangeReview(input) {
+            const id = input.dataset.id;
+            if (!id) return; // kalau belum pilih review, jangan kirim
+
+            let field = input.id.replace('review-', '');
+            if (field === 'batch') field = 'graduated_at'; // mapping
+
+            const value = input.value;
+
+            try {
+                const response = await fetch(`/api/update-reviews/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ [field]: value })
+                });
+
+                const data = await response.json();
+                if (data?.payload) refreshIframe();
+            } catch (err) {
+                console.error(err.message);
+            }
+        }
+
+        document.getElementById('addReviewForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('name', document.getElementById('add-review-name').value);
+            formData.append('image', document.getElementById('add-review-image').files[0]);
+            formData.append('graduated_at', document.getElementById('add-review-batch').value);
+            formData.append('message', document.getElementById('add-review-message').value);
+
+            try {
+                const response = await fetch('/api/add-reviews', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+                console.log('Add Review Response:', data);
+
+                if (data?.payload) {
+                    alert('Review berhasil ditambahkan!');
+                    refreshIframe();
+                    modal.style.display = "none";
+                    this.reset(); // reset form setelah submit
+                } else {
+                    alert('Gagal menambah review.');
+                }
+
+            } catch (err) {
+                console.error(err.message);
+                alert('Terjadi kesalahan.');
+            }
+        });
+
+        async function deleteReview() {
+            const id = document.getElementById('review-name').dataset.id;
+            if (!id) return;
+
+            if (!confirm('Yakin ingin menghapus review ini?')) return;
+
+            try {
+                const response = await fetch(`/api/delete-reviews/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        "Authorization": `Bearer ${apiToken}`,
+                        "Accept": "application/json",
+                    },
+                });
+
+                if (response.ok) {
+                    alert('Review berhasil dihapus');
+                    refreshIframe(); // supaya UI diperbarui
+                } else {
+                    alert('Gagal menghapus review');
+                }
+            } catch (err) {
+                console.error(err.message);
+            }
+        }
+
         const handleChangeDocument = async (e) => {
         const id = e.dataset.id; // ID document
         const parts = e.name.split('-');
@@ -576,12 +861,23 @@
         modal.style.display = "none";
         }
 
-        // When the user clicks anywhere outside of the modal, close it
+        var modalReview = document.getElementById("modalAddReview");
+        var btnAddReview = document.getElementById("btnAddReview");
+        var spanReview = modalReview.getElementsByClassName("close")[0];
+
+        btnAddReview.onclick = function() {
+            modalReview.style.display = "block";
+        }
+
+        spanReview.onclick = function() {
+            modalReview.style.display = "none";
+        }
+
         window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+            if (event.target == modal) modal.style.display = "none";
+            if (event.target == modalReview) modalReview.style.display = "none";
         }
-        }
+
     </script>
 
 </body>

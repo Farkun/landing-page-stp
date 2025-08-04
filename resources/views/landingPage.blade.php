@@ -269,43 +269,50 @@
 
     <section class="bg-white py-16">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-12" style="color:{{ $app_setting->primary_color }};">Testimoni Alumni</h2>
+            <h2 class="text-4xl font-bold text-center mb-12" style="color:{{ $app_setting->primary_color }};">
+                Testimoni Alumni
+            </h2>
+            
             <div id="testimonials-carousel" class="relative">
                 <div class="overflow-hidden">
                     <div class="flex transition-transform duration-500 ease-in-out" id="testimonial-slider" data-aos="zoom-in">
-                        <div class="w-full flex-shrink-0 md:w-1/3 p-4">
-                            <div class="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-                                <div class="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4"></div>
-                                <h4 class="text-lg font-semibold">Nama Alumni 1</h4>
-                                <p class="text-gray-600 text-sm mb-2">Angkatan 2020</p>
-                                <p class="text-gray-700 italic">"Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."</p>
+
+                        @foreach ($reviews as $review)
+                            <div class="w-full flex-shrink-0 md:w-1/3 p-4">
+                                <div class="bg-gray-100 p-6 rounded-lg shadow-md text-center">
+                                     @if ($review->image)
+                                        <img src="{{ asset($review->image) }}" 
+                                            alt="{{ $review->name }}" 
+                                            class="w-20 h-20 rounded-full mx-auto mb-4 object-cover">
+                                    @else
+                                    {{-- Foto Profil (jika ada kolom image di tabel) --}}
+                                    <div class="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4"></div>
+                                    @endif
+
+                                    {{-- Nama Alumni --}}
+                                    <h4 class="text-lg font-semibold">{{ $review->name }}</h4>
+
+                                    {{-- Angkatan (jika kosong, tampilkan '-') --}}
+                                    <p class="text-gray-600 text-sm mb-2">
+                                        Angkatan {{ $review->graduated_at ?? '-' }}
+                                    </p>
+
+                                    {{-- Pesan Testimoni --}}
+                                    <p class="text-gray-700 italic">"{{ $review->message }}"</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="w-full flex-shrink-0 md:w-1/3 p-4">
-                            <div class="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-                                <div class="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4"></div>
-                                <h4 class="text-lg font-semibold">Nama Alumni 2</h4>
-                                <p class="text-gray-600 text-sm mb-2">Angkatan 2019</p>
-                                <p class="text-gray-700 italic">"Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo consequat."</p>
-                            </div>
-                        </div>
-                        <div class="w-full flex-shrink-0 md:w-1/3 p-4">
-                            <div class="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-                                <div class="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4"></div>
-                                <h4 class="text-lg font-semibold">Nama Alumni 3</h4>
-                                <p class="text-gray-600 text-sm mb-2">Angkatan 2021</p>
-                                <p class="text-gray-700 italic">"Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur."</p>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
-                <button class="absolute top-1/2 left-0 -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-lg"
-                    id="prev-testimonial">‹</button>
-                <button class="absolute top-1/2 right-0 -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-lg"
-                    id="next-testimonial">›</button>
+
+                {{-- Tombol Navigasi Carousel --}}
+                @if ($reviews->count() > 1)
+                    <button class="absolute top-1/2 left-0 -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-lg"
+                        id="prev-testimonial">‹</button>
+                    <button class="absolute top-1/2 right-0 -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-lg"
+                        id="next-testimonial">›</button>
+                @endif
             </div>
         </div>
     </section>
@@ -336,9 +343,9 @@
         <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
                 <h3 class="text-xl font-bold mb-4">POLITEKNIK BOGOR</h3>
-                <p class="text-sm mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p class="text-sm mb-4">Penerimaan Mahasiswa Baru Sekolah Tinggi Pariwisata Bogor.</p>
                 <div class="flex space-x-4">
-                    <a href="#" class="hover:text-red-200">FB</a>
+                    <a href="#" class="hover:text-red-200">Facebook</a>
                     <a href="#" class="hover:text-red-200">TW</a>
                     <a href="#" class="hover:text-red-200">IG</a>
                 </div>
@@ -346,9 +353,9 @@
             <div>
                 <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
                 <ul>
-                    <li><a href="#" class="hover:text-red-200">About Us</a></li>
-                    <li><a href="#" class="hover:text-red-200">Admissions</a></li>
-                    <li><a href="#" class="hover:text-red-200">Academics</a></li>
+                    <li><a href="#" class="hover:text-red-200">Portal Siakad (Mahasiswa)</a></li>
+                    <li><a href="#" class="hover:text-red-200">Portal Siakad (Orang Tua)</a></li>
+                    <li><a href="#" class="hover:text-red-200">Tutorial Siakad Student</a></li>
                     <li><a href="#" class="hover:text-red-200">Contact Us</a></li>
                 </ul>
             </div>
