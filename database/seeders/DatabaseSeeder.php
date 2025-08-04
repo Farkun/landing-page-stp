@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             AppSettingSeeder::class,
             UserSeeder::class,
             HeroSeeder::class,
+            DocumentSeeder::class,
             CarouselImageSeeder::class,
         ]);
     }

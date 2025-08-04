@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AppSettingController;
 use App\Http\Controllers\HeroCarouselController;
+use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/update-hero-button-url', [HeroCarouselController::class, 'updateButtonUrl']);
     Route::put('/update-hero-animo', [HeroCarouselController::class, 'updateAnimo']);
     Route::put('/update-hero-selected', [HeroCarouselController::class, 'updateSelected']);
+    Route::put('/update-document/{id}', [DocumentController::class, 'update']);
     Route::post('/add-carousel', [HeroCarouselController::class, 'addCarousel']);
     Route::delete('/delete-carousel/{id}', [HeroCarouselController::class, 'deleteCarousel']);
 

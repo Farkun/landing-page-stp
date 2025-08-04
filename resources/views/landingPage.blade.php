@@ -131,61 +131,52 @@
 
                 <div class="relative w-full md:w-1/4 mb-8 md:mb-0" data-aos="zoom-in">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-                        <a href="https://pmb.stpbogor.siakad.tech/p/registrasi.php" target="_blank"
-                            class="absolute inset-0 z-20"></a>
+                        <a href="{{ $documents[0]->url ?? '#' }}" target="_blank" class="absolute inset-0 z-20"></a>
                         <div class="text-5xl mb-4 flex justify-center items-center" style="color: {{ $app_setting->secondary_color }};">
                             <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
-                                <path
-                                    d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z" />
+                                <path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">Pendaftaran Online</h3>
-                        <p class="text-gray-600 text-sm">Calon Mahasiswa Baru melakukan pendaftaran pada website STP
-                            Bogor.</p>
+                        <h3 class="text-xl font-semibold mb-2">{{ $documents[0]->title ?? 'Default Title 1' }}</h3>
+                        <p class="text-gray-600 text-sm">{{ $documents[0]->description ?? 'Default Desc 1' }}</p>
                     </div>
                 </div>
+
                 <div class="hidden md:flex items-center justify-center h-full w-12" style="color: {{ $app_setting->secondary_color }};">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                     </svg>
                 </div>
+
                 <div class="relative w-full md:w-1/4 mb-8 md:mb-0" data-aos="zoom-in">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-                        <a href="https://pmb.stpbogor.siakad.tech/admisi/bantuan/documentation.php#aktivasi"
-                            target="_blank" class="absolute inset-0 z-20"></a>
+                        <a href="{{ $documents[1]->url ?? '#' }}" target="_blank" class="absolute inset-0 z-20"></a>
                         <div class="text-5xl mb-4 flex justify-center items-center" style="color: {{ $app_setting->secondary_color }};">
                             <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                <path
-                                    d="M96 0C43 0 0 43 0 96L0 416c0 53 43 96 96 96l288 0 32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l0-64c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L384 0 96 0zm0 384l256 0 0 64L96 448c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16zm16 48l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
+                                <path d="M96 0C43 0 0 43 0 96L0 416c0 53 43 96 96 96l288 0 32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l0-64c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L384 0 96 0zm0 384l256 0 0 64L96 448c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16zm16 48l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">Prosedur PMB Online</h3>
-                        <p class="text-gray-600 text-sm">Calon mahasiswa baru melakukan aktivasi ID dan Password melalui
-                            notifikasi
-                            yang dikirim ke alamat email yang di daftarkan.
+                        <h3 class="text-xl font-semibold mb-2">{{ $documents[1]->title ?? 'Default Title 2' }}</h3>
+                        <p class="text-gray-600 text-sm">{{ $documents[1]->description ?? 'Default Desc 2' }}</p>
                     </div>
                 </div>
+
                 <div class="hidden md:flex items-center justify-center h-full w-12" style="color: {{ $app_setting->secondary_color }};">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                     </svg>
                 </div>
+
                 <div class="relative w-full md:w-1/4 mb-8 md:mb-0" data-aos="zoom-in">
                     <div class="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-                        <a href="https://pmb.stpbogor.siakad.tech/p/login.php" target="_blank"
-                            class="absolute inset-0 z-20"></a>
+                        <a href="{{ $documents[2]->url ?? '#' }}" target="_blank" class="absolute inset-0 z-20"></a>
                         <div class="text-5xl mb-4 flex justify-center items-center" style="color: {{ $app_setting->secondary_color }};">
                             <svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                <path
-                                    d="M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z" />
+                                <path d="M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">Login PMB</h3>
-                        <p class="text-gray-600 text-sm">Calon mahasiswa baru login pada halaman login PMB.</p>
+                        <h3 class="text-xl font-semibold mb-2">{{ $documents[2]->title ?? 'Default Title 3' }}</h3>
+                        <p class="text-gray-600 text-sm">{{ $documents[2]->description ?? 'Default Desc 3' }}</p>
                     </div>
                 </div>
             </div>
