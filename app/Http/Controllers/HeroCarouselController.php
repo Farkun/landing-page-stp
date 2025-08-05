@@ -84,12 +84,13 @@ class HeroCarouselController extends Controller
         if (!File::exists($target_dir)) File::makeDirectory($target_dir, 0755, true);
         $filename = $request->file('file')->hashName();
         $request->file('file')->move($target_dir, $filename);
-        CarouselImage::create([
+        $carousel = CarouselImage::create([
             'url' => "/storage/carousel/$filename"
         ]);
+        $carousel->encrypted_id = Crypt::encryptString($carousel->id);
         return response()->json([
             'message' => 'CREATED',
-            'payload' => true
+            'payload' => $carousel
         ], 201);
     }
 
@@ -102,9 +103,9 @@ class HeroCarouselController extends Controller
         if (File::exists($file_path)) File::delete($file_path);
         $carousel->delete();
         return response()->json([
-            'message' => 'NO CONTENT',
+            'message' => 'OK',
             'payload' => true
-        ], 204);
+        ], 200);
     }
 
 }

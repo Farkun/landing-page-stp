@@ -160,10 +160,12 @@
         /* Modal Content/Box */
         .modal-content {
             background-color: #fefefe;
-            margin: 15% auto; /* 15% from the top and centered */
+            margin: 10% auto 5% auto; /* 15% from the top and centered */
             padding: 0 10px 10px 10px;
             border: 1px solid #888;
-            width: 30%; /* Could be more or less, depending on screen size */
+            width: 70%; /* Could be more or less, depending on screen size */
+            height: fit-content;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
         }
@@ -181,6 +183,20 @@
             color: black;
             text-decoration: none;
             cursor: pointer;
+        }
+        #carousels-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            width: 100%;
+            border: 1px solid #fffffa;
+            border-radius:5px;
+            padding: 3px 5px;
+        }
+        #carousels-btn:hover {
+            color: #2a2a2a;
+            background-color: #fffffa;
         }
     </style>
 </head>
@@ -280,16 +296,8 @@
                             <input type="number" name="hero-selected" id="hero-selected" value="{{ $hero->selected }}" onchange="handleChangeGeneral(this)">
                         </div>
                         <div class="sidebar-subitem">
-                            <label for="">Carousel Images</label>
                             <div style="width: 100%;padding-bottom: 5px;">
-                                <button style="background-color: #fffffa;width:100%;" id="myBtn">+</button>
-                            </div>
-                            <div class="w-full">
-                                @foreach ($carousel_image as $image)
-                                    <img src="{{ $image->url }}" alt="" style="
-                                        width: 100%;
-                                    ">
-                                @endforeach
+                                <button id="carousels-btn"><label style="font-size: 16px;">Carousel Images</label><span>&#11208;</span></button>
                             </div>
                         </div>
 
@@ -345,16 +353,44 @@
         </div>
     </div>
 
-    <div id="myModal" class="modal">
+    <div id="carousels-modal" class="modal">
         <div class="modal-content">
             <div>
                 <div class="close">&times;</div>
             </div>
-            <div style="display:flex;flex-direction:column;color:#2a2a2a">
-                <img src="" alt="" id="preview-add-carousel" style="display: none;">
-                <input type="file" name="file" id="add-carousel" onchange="previewImage(this)" accept="image/*" style="color: #2a2a2a;">
-                <div style="display:flex;justify-content:flex-end;">
-                    <button class="btn" style="background-color: #22aa2a;color:#fffffa;" onclick="addCarousel()">Submit</button>
+            <div style="
+                width: 100%;
+                max-height: 80%;
+                overflow-y: scroll;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+            " id="carousel-item-container">
+                @foreach ($carousel_image as $image)
+                    <div style="width: 200px;position: relative;">
+                        <div style="position:absolute;top:5px;left:5px;display:flex;align-items:center;gap:5px;">
+                            <div style="background-color:#fffffa;padding: 0 5px;border-radius:5px;">{{ $loop->iteration }}</div>
+                            <button class="btn" style="background-color:#dd0000;padding: 3px;border-radius:5px;font-size:12px;" onclick="deleteCarousel(this, '/api/delete-carousel/{{ Crypt::encryptString($image->id) }}')">🗑️</button>
+                        </div>
+                        <img src="{{ $image->url }}" alt="" style="width: 100%;">
+                    </div>
+                @endforeach
+                <button id="add-carousel-btn" style="width:100px;height:100px;background-color:#888;border-radius:10px;font-size:24px;color:white;" onclick="toggleAddCarousel(true)">
+                    +
+                </button>
+            </div>
+            <br>
+            <div style="display:flex;justify-content:center;">
+                <div style="width:50%;display:none;flex-direction:column;color:#2a2a2a" id="add-carousel-form">
+                    <div style="display:flex;justify-content:center;padding:10px;border-radius:10px;background-color:#888;">
+                        <img src="" alt="" id="preview-add-carousel" style="display: none;width:250px;">
+                    </div>
+                    <input type="file" name="file" id="add-carousel" onchange="previewImage(this)" accept="image/*" style="color: #2a2a2a;">
+                    <div style="display:flex;justify-content:flex-end; gap: 5px;">
+                        <button class="btn" style="background-color: #22aa2a;color:#fffffa;" onclick="addCarousel()">Submit</button>
+                        <button class="btn" style="background-color:#888;color:#fffffa;" onclick="toggleAddCarousel(false)">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -482,51 +518,95 @@
 
         const addCarousel = async () => {
             const file = document.getElementById('add-carousel').files[0]
-            const formData = new FormData()
-            formData.append('file', file)
+            if (!file) {
+                alert('Pilih file gambar terlebih dahulu');
+                return;
+            }
             try {
+                const formData = new FormData();
+                formData.append('file', file)
                 const response = await fetch('/api/add-carousel', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${apiToken}`,
-                        'Content-Type': 'multipart/form-data',
                         'Accept': 'application/json'
                     },
                     body: formData
                 })
                 const data = await response.json()
-                if (data?.payload) refreshIframe()
+                if (data?.payload) {
+                    refreshIframe()
+                    document.getElementById('add-carousel').value = ''
+                    document.getElementById('preview-add-carousel').style.display = 'none'
+                    const container = document.getElementById("carousel-item-container")
+                    const btn = document.getElementById("add-carousel-btn")
+                    const count = container.children.length
+                    const newElement = document.createElement('div')
+                    newElement.style.width = '200px'
+                    newElement.style.position = 'relative'
+                    newElement.innerHTML = `
+                    <div style="position:absolute;top:5px;left:5px;display:flex;align-items:center;gap:5px;">
+                        <div style="background-color:#fffffa;padding: 0 5px;border-radius:5px;">${count}</div>
+                        <button class="btn" style="background-color:#dd0000;padding: 3px;border-radius:5px;font-size:12px;" onclick="deleteCarousel(this, '/api/delete-carousel/${data.payload.encrypted_id}')">🗑️</button>
+                    </div>
+                    <img src="${data.payload.url}" alt="" style="width: 100%;">
+                    `
+                    btn.before(newElement)
+                    newElement.append()
+                }
             } catch (err) {
                 console.error(err.message)
             }
         }
 
-        const handleChangeDocument = async (e) => {
-        const id = e.dataset.id; // ID document
-        const parts = e.name.split('-');
-        const field = parts[1].replace(/\d+$/, ''); // hapus angka di akhir
-
-        const value = e.value.replaceAll('\n', '<br>').replaceAll('\t', '&emsp;');
-
-        try {
-            const response = await fetch(`/api/update-document/${id}`, {
-                method: 'PUT',
-                headers: {
-                    "Authorization": `Bearer ${apiToken}`,
-                    "Content-Type": 'application/json',
-                    "Accept": 'application/json',
-                },
-                body: JSON.stringify({ [field]: value })
-            });
-
-            const data = await response.json();
-            if (data?.payload) refreshIframe();
-        } catch (err) {
-            console.error(err.message);
+        const toggleAddCarousel = (state) => {
+            const form = document.getElementById('add-carousel-form')
+            form.style.display = state ? 'flex' : 'none'
         }
-    }
 
+        const handleChangeDocument = async (e) => {
+            const id = e.dataset.id; // ID document
+            const parts = e.name.split('-');
+            const field = parts[1].replace(/\d+$/, ''); // hapus angka di akhir
 
+            const value = e.value.replaceAll('\n', '<br>').replaceAll('\t', '&emsp;');
+
+            try {
+                const response = await fetch(`/api/update-document/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        "Authorization": `Bearer ${apiToken}`,
+                        "Content-Type": 'application/json',
+                        "Accept": 'application/json',
+                    },
+                    body: JSON.stringify({ [field]: value })
+                });
+
+                const data = await response.json();
+                if (data?.payload) refreshIframe();
+            } catch (err) {
+                console.error(err.message);
+            }
+        }
+
+        const deleteCarousel = async (e, route) => {
+            try {
+                const response = await fetch(route, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json'
+                    }
+                })
+                const data = await response.json()
+                if (data?.payload) {
+                    refreshIframe()
+                    e.parentElement.parentElement.remove()
+                }
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
 
         const refreshIframe = () => {
             const iframe = document.getElementById('iframe')
@@ -558,29 +638,15 @@
         load()
     </script>
     <script>
-        var modal = document.getElementById("myModal");
-
-        // Get the button that opens the modal
-        var btn = document.getElementById("myBtn");
-
-        // Get the <span> element that closes the modal
+        var modal = document.getElementById("carousels-modal")
+        var btn = document.getElementById("carousels-btn");
         var span = document.getElementsByClassName("close")[0];
-
-        // When the user clicks on the button, open the modal
-        btn.onclick = function() {
-        modal.style.display = "block";
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-        modal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
+        btn.onclick = () => modal.style.display = "block"
+        span.onclick = () => modal.style.display = "none"
         window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
     </script>
 
