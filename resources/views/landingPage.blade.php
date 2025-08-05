@@ -322,18 +322,12 @@
             <h2 class="text-4xl font-bold text-center mb-12" style="color:{{ $app_setting->primary_color }};">Mitra</h2>
             <div class="running">
                 <div class="flex gap-8 items-center justify-center overflow-x-hidden" data-aos="fade-up">
-                    <img src="https://thumbs.dreamstime.com/b/hand-shake-logo-vector-flat-design-shaking-hands-symbol-handshake-logotype-concept-deal-partnership-icon-partner-agreement-123892727.jpg" alt="Partner Logo 1"
-                        class="h-20 object-contain">
-                    <img src="https://www.shutterstock.com/image-vector/handshake-partnership-logo-design-hand-600nw-2520743481.jpg" alt="Partner Logo 2"
-                        class="h-20 object-contain">
-                    <img src="https://t3.ftcdn.net/jpg/05/47/85/82/360_F_547858247_3pRJxIxgvDlf2HQiBlzqLfO98ncghF6J.jpg" alt="Partner Logo 3"
-                        class="h-20 object-contain">
-                    <img src="https://media.istockphoto.com/id/1369899988/vector/handshake-sign-in-the-circle-on-white-background-vector-illustration.jpg?s=612x612&w=0&k=20&c=auA4GuM2p-EmKmEgcFjIOUibPiXsuvTxfvRKB-EN7o8=" alt="Partner Logo 4"
-                        class="h-20 object-contain">
-                    <img src="https://t4.ftcdn.net/jpg/04/24/01/43/360_F_424014391_pIsVnz0NMtPcsVL5appIbqMrWu8bU6vA.jpg" alt="Partner Logo 5"
-                        class="h-20 object-contain">
-                    <img src="https://www.creativefabrica.com/wp-content/uploads/2021/05/29/Partner-Logo-Symbols-Graphics-12646980-1.png" alt="Partner Logo 6"
-                        class="h-20 object-contain">
+                    @foreach ($partners as $pt)
+                        <a href="{{ $pt->url }}" target="_blank">
+                            <img src="{{ $pt->logo }}" alt="Partner Logo 1"
+                                class="h-20 object-contain">
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </div>

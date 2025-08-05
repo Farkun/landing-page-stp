@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             DocumentSeeder::class,
             ReviewSeeder::class,
             CarouselImageSeeder::class,
+            PartnerSeeder::class,
         ]);
     }
 }

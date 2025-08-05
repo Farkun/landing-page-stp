@@ -6,6 +6,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard</title>
     <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Tooltip text */
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            font-size: 12px;
+            background-color: #2a2a2aaa;
+            color: #fff;
+            text-align: center;
+            padding: 5px 0;
+            border-radius: 6px;
+            position: absolute;
+            z-index: 1;
+            top: 30px;
+            left: 0;
+        }
+
+        /* Show the tooltip text when you mouse over the tooltip container */
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
         nav {
             position: sticky;
             background-color: white;
@@ -120,6 +144,7 @@
         }
         ::-webkit-scrollbar {
             width: 5px;
+            height: 5px;
         }
         ::-webkit-scrollbar-thumb {
             background: gray; 
@@ -247,7 +272,8 @@
             text-decoration: none;
             cursor: pointer;
         }
-        #carousels-btn {
+        #carousels-btn,
+        #partners-btn {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -257,7 +283,8 @@
             border-radius:5px;
             padding: 3px 5px;
         }
-        #carousels-btn:hover {
+        #carousels-btn:hover,
+        #partners-btn:hover {
             color: #2a2a2a;
             background-color: #fffffa;
         }
@@ -268,7 +295,7 @@
     <nav>
         <div>
             <div>
-                <button class="btn" onclick="togglSidebar()">&#9776;</button>
+                <button class="btn" onclick="toggleSidebar()">&#9776;</button>
             </div>
             <div><button style="
                 padding: 5px 8px;
@@ -367,7 +394,7 @@
                     </div>
                 </div>
 
-                 <div>
+                <div>
                     <button class="sidebar-item" onclick="toggleSidebarItem(this)"><span>Document Section</span><span>&#11207;</span></button>
                     <div style="display: none; flex-direction: column;">
 
@@ -470,6 +497,17 @@
                     </div>
     
                 </div>
+
+                <div>
+                    <button class="sidebar-item" onclick="toggleSidebarItem(this)"><span>Partners Section</span><span>&#11207;</span></button>
+                    <div style="display: none; flex-direction: column;">
+                        <div class="sidebar-subitem">
+                            <div style="width: 100%;padding-bottom: 5px;">
+                                <button id="partners-btn"><label style="font-size: 16px;">Partners</label><span>&#11208;</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="content">
@@ -497,12 +535,12 @@
                 gap: 5px;
             " id="carousel-item-container">
                 @foreach ($carousel_image as $image)
-                    <div style="width: 200px;position: relative;">
+                    <div style="height: 120px; position: relative;">
                         <div style="position:absolute;top:5px;left:5px;display:flex;align-items:center;gap:5px;">
                             <div style="background-color:#fffffa;padding: 0 5px;border-radius:5px;">{{ $loop->iteration }}</div>
                             <button class="btn" style="background-color:#dd0000;padding: 3px;border-radius:5px;font-size:12px;" onclick="deleteCarousel(this, '/api/delete-carousel/{{ Crypt::encryptString($image->id) }}')">🗑️</button>
                         </div>
-                        <img src="{{ $image->url }}" alt="" style="width: 100%;">
+                        <img src="{{ $image->url }}" alt="" style="width: auto; height: 100px;">
                     </div>
                 @endforeach
                 <button id="add-carousel-btn" style="width:100px;height:100px;background-color:#888;border-radius:10px;font-size:24px;color:white;" onclick="toggleAddCarousel(true)">
@@ -515,7 +553,7 @@
                     <div style="display:flex;justify-content:center;padding:10px;border-radius:10px;background-color:#888;">
                         <img src="" alt="" id="preview-add-carousel" style="display: none;width:250px;">
                     </div>
-                    <input type="file" name="file" id="add-carousel" onchange="previewImage(this)" accept="image/*" style="color: #2a2a2a;">
+                    <input type="file" name="file" id="add-carousel" onchange="previewImageCarousel(this)" accept=".png,.jpg,.jpeg,.webp" style="color: #2a2a2a;">
                     <div style="display:flex;justify-content:flex-end; gap: 5px;">
                         <button class="btn" style="background-color: #22aa2a;color:#fffffa;" onclick="addCarousel()">Submit</button>
                         <button class="btn" style="background-color:#888;color:#fffffa;" onclick="toggleAddCarousel(false)">Cancel</button>
@@ -554,6 +592,69 @@
             </form>
         </div>
     </div>
+    <div id="partners-modal" class="modal">
+        <div class="modal-content">
+            <div>
+                <div class="close" id="close-partners-modal">&times;</div>
+            </div>
+            <div style="
+                width: 100%;
+                max-height: 80%;
+                overflow-y: scroll;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+            " id="partner-item-container">
+                @foreach ($partners as $partner)
+                    <div class="tooltip" style="height: 120px;position: relative;">
+                        <div style="position:absolute;top:5px;left:5px;display:flex;align-items:center;gap:5px;">
+                            <div style="background-color:#fffffa;padding: 0 5px;border-radius:5px;">{{ $loop->iteration }}</div>
+                            <button class="btn" style="background-color:#dd0000;padding: 3px;border-radius:5px;font-size:12px;" onclick="deletePartner(this, '/api/delete-partners/{{ Crypt::encryptString($partner->id) }}')">🗑️</button>
+                        </div>
+                        <img src="{{ $partner->logo }}" alt="" style="width: auto; height: 100px">
+                        <span class="tooltiptext">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>:</th>
+                                        <td style="text-align: start;">{{ $partner->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>URL</th>
+                                        <th>:</th>
+                                        <td style="text-align: start;">{{ $partner->url }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </span>
+                    </div>
+                @endforeach
+                <button id="add-partner-btn" style="width:100px;height:100px;background-color:#888;border-radius:10px;font-size:24px;color:white;" onclick="toggleAddPartner(true)">
+                    +
+                </button>
+            </div>
+            <br>
+            <div style="display:flex;justify-content:center;">
+                <div style="width:50%;display:none;flex-direction:column;color:#2a2a2a" id="add-partner-form">
+                    <label for="">Name</label>
+                    <input type="text" name="name" style="color: #2a2a2a;border: 1px solid #2a2a2a;">
+                    <div style="margin: 5px 0 0 0;display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px;border-radius:10px;background-color:#888;color:#fffffa;">
+                        Logo
+                        <img src="" alt="" id="preview-add-partner" style="display: none;width:250px;">
+                    </div>
+                    <input type="file" name="logo" id="add-partner" onchange="previewImagePartner(this)" accept=".png,.jpg,.jpeg,.webp" style="color: #2a2a2a;">
+                    <label for="">URL</label>
+                    <input type="text" name="url" style="color: #2a2a2a;border: 1px solid #2a2a2a;">
+                    <div style="margin: 10px 0 0 0;display:flex;justify-content:flex-end; gap: 5px;">
+                        <button class="btn" style="background-color: #22aa2a;color:#fffffa;" onclick="addPartner()">Submit</button>
+                        <button class="btn" style="background-color:#888;color:#fffffa;" onclick="toggleAddPartner(false)">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         const apiToken = @json(session('api_token'))
@@ -588,7 +689,7 @@
             setTimeout(() => save(), 300)
         }
 
-        const togglSidebar = () => {
+        const toggleSidebar = () => {
             const sidebar = document.getElementById('sidebar')
             if (sidebar.style.display == 'none') {
                 sidebar.style.display = ''
@@ -701,20 +802,55 @@
                     const btn = document.getElementById("add-carousel-btn")
                     const count = container.children.length
                     const newElement = document.createElement('div')
-                    newElement.style.width = '200px'
+                    newElement.style.height = '120px'
                     newElement.style.position = 'relative'
                     newElement.innerHTML = `
                     <div style="position:absolute;top:5px;left:5px;display:flex;align-items:center;gap:5px;">
                         <div style="background-color:#fffffa;padding: 0 5px;border-radius:5px;">${count}</div>
                         <button class="btn" style="background-color:#dd0000;padding: 3px;border-radius:5px;font-size:12px;" onclick="deleteCarousel(this, '/api/delete-carousel/${data.payload.encrypted_id}')">🗑️</button>
                     </div>
-                    <img src="${data.payload.url}" alt="" style="width: 100%;">
+                    <img src="${data.payload.url}" alt="" style="width: auto; height: 100px">
                     `
                     btn.before(newElement)
                     newElement.append()
                 }
             } catch (err) {
                 console.error(err.message)
+            }
+        }
+        const toggleAddCarousel = (state) => {
+            const form = document.getElementById('add-carousel-form')
+            form.style.display = state ? 'flex' : 'none'
+        }
+        const deleteCarousel = async (e, route) => {
+            try {
+                const response = await fetch(route, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json'
+                    }
+                })
+                const data = await response.json()
+                if (data?.payload) {
+                    refreshIframe()
+                    e.parentElement.parentElement.remove()
+                    const items = [...document.getElementById('carousel-item-container').children]
+                    items.forEach((e, i) => {
+                        if (i + 1 < items.length) e.children[0].children[0].innerHTML = `${i+1}`
+                    })
+                }
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
+        const previewImageCarousel = (e) => {
+            const preview = document.getElementById('preview-add-carousel')
+            const file = e.files[0]
+            if (file) {
+                const url = URL.createObjectURL(file)
+                preview.src = url
+                preview.style.display = ''
             }
         }
 
@@ -843,10 +979,6 @@
                 console.error(err.message);
             }
         }
-        const toggleAddCarousel = (state) => {
-            const form = document.getElementById('add-carousel-form')
-            form.style.display = state ? 'flex' : 'none'
-        }
 
         const handleChangeDocument = async (e) => {
             const id = e.dataset.id; // ID document
@@ -872,8 +1004,81 @@
                 console.error(err.message);
             }
         }
+        
 
-        const deleteCarousel = async (e, route) => {
+        const addPartner = async () => {
+            const form = document.getElementById('add-partner-form')
+            const inputs = new Array(...form.getElementsByTagName('input'))
+            try {
+                const formData = new FormData();
+                inputs.forEach(e => {
+                    if (e.type == 'file' && !e.files[0]) {
+                        alert('Pilih file gambar terlebih dahulu');
+                        return;
+                    } else if (e.value == null || e.value == '') {
+                        alert('Form belum lengkap');
+                        return;
+                    } else if (e.type == 'file') formData.append(e.name, e.files[0])
+                    else formData.append(e.name, e.value)
+                })
+                const response = await fetch('/api/add-partners', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                const data = await response.json()
+                if (data?.payload) {
+                    refreshIframe()
+                    inputs.forEach(e => {
+                        if (e.type == 'files') e.files = []
+                        else e.value = ''
+                    });
+                    document.getElementById('preview-add-partner').style.display = 'none'
+                    const container = document.getElementById("partner-item-container")
+                    const btn = document.getElementById("add-partner-btn")
+                    const count = container.children.length
+                    const newElement = document.createElement('div')
+                    newElement.className = 'tooltip'
+                    newElement.style.height = '120px'
+                    newElement.style.position = 'relative'
+                    newElement.innerHTML = `
+                    <div style="position:absolute;top:5px;left:5px;display:flex;align-items:center;gap:5px;">
+                        <div style="background-color:#fffffa;padding: 0 5px;border-radius:5px;">${count}</div>
+                        <button class="btn" style="background-color:#dd0000;padding: 3px;border-radius:5px;font-size:12px;" onclick="deletePartner(this, '/api/delete-partners/${data.payload.encrypted_id}')">🗑️</button>
+                    </div>
+                    <img src="${data.payload.logo}" alt="" style="width: auto; height: 100px;">
+                    <span class="tooltiptext">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>:</th>
+                                    <td style="text-align: start;">${data.payload.name}</td>
+                                </tr>
+                                <tr>
+                                    <th>URL</th>
+                                    <th>:</th>
+                                    <td style="text-align: start;">${data.payload.url}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </span>
+                    `
+                    btn.before(newElement)
+                    newElement.append()
+                }
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
+        const toggleAddPartner = (state) => {
+            const form = document.getElementById('add-partner-form')
+            form.style.display = state ? 'flex' : 'none'
+        }
+        const deletePartner = async (e, route) => {
             try {
                 const response = await fetch(route, {
                     method: 'DELETE',
@@ -886,9 +1091,22 @@
                 if (data?.payload) {
                     refreshIframe()
                     e.parentElement.parentElement.remove()
+                    const items = [...document.getElementById('partner-item-container').children]
+                    items.forEach((e, i) => {
+                        if (i+1 < items.length) e.children[0].children[0].innerHTML = `${i+1}`
+                    })
                 }
             } catch (err) {
                 console.error(err.message)
+            }
+        }
+        const previewImagePartner = (e) => {
+            const preview = document.getElementById('preview-add-partner')
+            const file = e.files[0]
+            if (file) {
+                const url = URL.createObjectURL(file)
+                preview.src = url
+                preview.style.display = ''
             }
         }
 
@@ -909,36 +1127,37 @@
             }
         }
 
-        const previewImage = (e) => {
-            const preview = document.getElementById('preview-add-carousel')
-            const file = e.files[0]
-            if (file) {
-                const url = URL.createObjectURL(file)
-                preview.src = url
-                preview.style.display = ''
-            }
-        }
-
         load()
     </script>
     <script>
         var modal = document.getElementById("carousels-modal")
         var btn = document.getElementById("carousels-btn");
         var span = document.getElementsByClassName("close")[0];
-
-        btn.onclick = () => modal.style.display = "block"
+        btn.onclick = () => {
+            modal.style.display = "block"
+            document.getElementById('add-carousel-form').style.display = 'none'
+        }
         span.onclick = () => modal.style.display = "none"
 
         var modalReview = document.getElementById("modalAddReview");
         var btnAddReview = document.getElementById("btnAddReview");
         var spanReview = modalReview.getElementsByClassName("close")[0];
-
         btnAddReview.onclick = () => modalReview.style.display = "block"
         spanReview.onclick = () => modalReview.style.display = "none"
+        
+        var modalPartner = document.getElementById("partners-modal")
+        var btnPartner = document.getElementById("partners-btn");
+        var spanPartner = document.getElementById("close-partners-modal");
+        btnPartner.onclick = () => {
+            modalPartner.style.display = "block"
+            document.getElementById('add-partner-form').style.display = 'none'
+        }
+        spanPartner.onclick = () => modalPartner.style.display = "none"
 
         window.onclick = function(event) {
             if (event.target == modal) modal.style.display = "none";
             if (event.target == modalReview) modalReview.style.display = "none";
+            if (event.target == modalPartner) modalPartner.style.display = "none";
         }
     </script>
 
