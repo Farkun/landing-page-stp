@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/get-partners', [PartnerController::class, 'get']);
     Route::post('/add-partners', [PartnerController::class, 'store']);
-    Route::delete('/delete-partners', [PartnerController::class, 'delete']);
+    Route::delete('/delete-partners/{id}', [PartnerController::class, 'delete']);
 
     Route::get('/get-reviews', [ReviewController::class, 'get']);
     Route::post('/add-reviews', [ReviewController::class, 'store']);
