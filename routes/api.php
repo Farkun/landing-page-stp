@@ -6,6 +6,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SocialController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -13,6 +14,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/tes', [AppSettingController::class, 'tes']);
     Route::put('/update-color', [AppSettingController::class, 'updateColors']);
     Route::put('/update-app-name', [AppSettingController::class, 'updateAppName']);
+    Route::put('/update-contact-address', [AppSettingController::class, 'updateContactAndAddress']);
     Route::put('/update-hero-heading', [HeroCarouselController::class, 'updateHeading']);
     Route::put('/update-hero-body', [HeroCarouselController::class, 'updateBody']);
     Route::put('/update-hero-button-label', [HeroCarouselController::class, 'updateButtonLabel']);
@@ -31,4 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/add-reviews', [ReviewController::class, 'store']);
     Route::put('/update-reviews/{id}', [ReviewController::class, 'update']);
     Route::delete('/delete-reviews/{id}', [ReviewController::class, 'delete']);
+
+    Route::post('/add-socials', [SocialController::class, 'store']);
+    Route::delete('/delete-socials/{id}', [SocialController::class, 'destroy']);
 });

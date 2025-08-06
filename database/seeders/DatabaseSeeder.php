@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ReviewSeeder::class,
             CarouselImageSeeder::class,
             PartnerSeeder::class,
+            SocialSeeder::class,
         ]);
     }
 }
