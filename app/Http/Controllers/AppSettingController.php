@@ -46,7 +46,7 @@ class AppSettingController extends Controller
         return response()->json([
             'message' => 'OK',
             'payload' => true
-        ]);
+        ], 200);
     }
 
     public function updateColors(Request $request) {

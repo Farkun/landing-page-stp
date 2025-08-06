@@ -273,7 +273,8 @@
             cursor: pointer;
         }
         #carousels-btn,
-        #partners-btn {
+        #partners-btn,
+        #socials-btn {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -284,7 +285,8 @@
             padding: 3px 5px;
         }
         #carousels-btn:hover,
-        #partners-btn:hover {
+        #partners-btn:hover,
+        #socials-btn:hover {
             color: #2a2a2a;
             background-color: #fffffa;
         }
@@ -508,6 +510,32 @@
                         </div>
                     </div>
                 </div>
+
+                <div>
+                    <button class="sidebar-item" onclick="toggleSidebarItem(this)"><span>Contact & Info</span><span>&#11207;</span></button>
+                    <div style="display: none; flex-direction: column;">
+                        <div id="contact-form">
+                            <div class="sidebar-subitem">
+                                <label>Phone</label>
+                                <input type="text" name="phone" value="{{ $app_setting->phone }}" onchange="updateContactAndAddress()">
+                            </div>
+                            <div class="sidebar-subitem">
+                                <label>Email</label>
+                                <input type="text" name="email" value="{{ $app_setting->email }}" onchange="updateContactAndAddress()">
+                            </div>
+                            <div class="sidebar-subitem">
+                                <label>Address</label>
+                                <textarea name="address" id="" cols="30" rows="5" onchange="updateContactAndAddress()">{{ $app_setting->address }}</textarea>
+                            </div>
+                        </div>
+                        <div class="sidebar-subitem">
+                            <div style="width: 100%;padding-bottom: 5px;">
+                                <button id="socials-btn"><label style="font-size: 16px;">Socials</label><span>&#11208;</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="content">
@@ -650,6 +678,69 @@
                     <div style="margin: 10px 0 0 0;display:flex;justify-content:flex-end; gap: 5px;">
                         <button class="btn" style="background-color: #22aa2a;color:#fffffa;" onclick="addPartner()">Submit</button>
                         <button class="btn" style="background-color:#888;color:#fffffa;" onclick="toggleAddPartner(false)">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="socials-modal" class="modal">
+        <div class="modal-content">
+            <div>
+                <div class="close" id="close-socials-modal">&times;</div>
+            </div>
+            <div style="
+                width: 100%;
+                max-height: 80%;
+                overflow-y: scroll;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+            " id="social-item-container">
+                @foreach ($socials as $social)
+                    <div class="tooltip" style="height: 120px;position: relative;">
+                        <div style="position:absolute;top:5px;left:5px;display:flex;align-items:center;gap:5px;">
+                            <div style="background-color:#fffffa;padding: 0 5px;border-radius:5px;">{{ $loop->iteration }}</div>
+                            <button class="btn" style="background-color:#dd0000;padding: 3px;border-radius:5px;font-size:12px;" onclick="deleteSocial(this, '/api/delete-socials/{{ Crypt::encryptString($social->id) }}')">🗑️</button>
+                        </div>
+                        <img src="{{ $social->image }}" alt="" style="width: auto; height: 100px">
+                        <span class="tooltiptext">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>:</th>
+                                        <td style="text-align: start;">{{ $social->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>URL</th>
+                                        <th>:</th>
+                                        <td style="text-align: start;">{{ $social->url }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </span>
+                    </div>
+                @endforeach
+                <button id="add-social-btn" style="width:100px;height:100px;background-color:#888;border-radius:10px;font-size:24px;color:white;" onclick="toggleAddSocial(true)">
+                    +
+                </button>
+            </div>
+            <br>
+            <div style="display:flex;justify-content:center;">
+                <div style="width:50%;display:none;flex-direction:column;color:#2a2a2a" id="add-social-form">
+                    <label for="">Name</label>
+                    <input type="text" name="name" style="color: #2a2a2a;border: 1px solid #2a2a2a;">
+                    <div style="margin: 5px 0 0 0;display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px;border-radius:10px;background-color:#888;color:#fffffa;">
+                        Logo
+                        <img src="" alt="" id="preview-add-social" style="display: none;width:250px;">
+                    </div>
+                    <input type="file" name="image" id="add-social" onchange="previewImageSocial(this)" accept=".png,.jpg,.jpeg,.webp" style="color: #2a2a2a;">
+                    <label for="">URL</label>
+                    <input type="text" name="url" style="color: #2a2a2a;border: 1px solid #2a2a2a;">
+                    <div style="margin: 10px 0 0 0;display:flex;justify-content:flex-end; gap: 5px;">
+                        <button class="btn" style="background-color: #22aa2a;color:#fffffa;" onclick="addSocial()">Submit</button>
+                        <button class="btn" style="background-color:#888;color:#fffffa;" onclick="toggleAddSocial(false)">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -1110,6 +1201,133 @@
             }
         }
 
+        const updateContactAndAddress = async () => {
+            const form = document.getElementById('contact-form')
+            let inputs = [...form.getElementsByTagName('input'), ...form.getElementsByTagName('textarea')]
+            try {
+                const formData = {}
+                inputs.forEach(e => {
+                    if (e.value != null || e.value != '') formData[e.name] = e.value
+                })
+                const response = await fetch('/api/update-contact-address', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                const data = await response.json()
+                if (data?.payload) refreshIframe()
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
+        const addSocial = async () => {
+            const form = document.getElementById('add-social-form')
+            const inputs = [...form.getElementsByTagName('input')]
+            try {
+                const formData = new FormData();
+                inputs.forEach(e => {
+                    if (e.type == 'file' && !e.files[0]) {
+                        alert('Pilih file gambar terlebih dahulu');
+                        return;
+                    } else if (e.value == null || e.value == '') {
+                        alert('Form belum lengkap');
+                        return;
+                    } else if (e.type == 'file') formData.append(e.name, e.files[0])
+                    else formData.append(e.name, e.value)
+                })
+                const response = await fetch('/api/add-socials', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                const data = await response.json()
+                if (data?.payload) {
+                    refreshIframe()
+                    inputs.forEach(e => {
+                        if (e.type == 'files') e.files = []
+                        else e.value = ''
+                    });
+                    document.getElementById('preview-add-social').style.display = 'none'
+                    const container = document.getElementById("social-item-container")
+                    const btn = document.getElementById("add-social-btn")
+                    const count = container.children.length
+                    const newElement = document.createElement('div')
+                    newElement.className = 'tooltip'
+                    newElement.style.height = '120px'
+                    newElement.style.position = 'relative'
+                    newElement.innerHTML = `
+                    <div style="position:absolute;top:5px;left:5px;display:flex;align-items:center;gap:5px;">
+                        <div style="background-color:#fffffa;padding: 0 5px;border-radius:5px;">${count}</div>
+                        <button class="btn" style="background-color:#dd0000;padding: 3px;border-radius:5px;font-size:12px;" onclick="deleteSocial(this, '/api/delete-socials/${data.payload.encrypted_id}')">🗑️</button>
+                    </div>
+                    <img src="${data.payload.image}" alt="" style="width: auto; height: 100px;">
+                    <span class="tooltiptext">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>:</th>
+                                    <td style="text-align: start;">${data.payload.name}</td>
+                                </tr>
+                                <tr>
+                                    <th>URL</th>
+                                    <th>:</th>
+                                    <td style="text-align: start;">${data.payload.url}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </span>
+                    `
+                    btn.before(newElement)
+                    newElement.append()
+                }
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
+        const deleteSocial = async (e, route) => {
+            try {
+                const response = await fetch(route, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json'
+                    }
+                })
+                const data = await response.json()
+                if (data?.payload) {
+                    refreshIframe()
+                    e.parentElement.parentElement.remove()
+                    const items = [...document.getElementById('social-item-container').children]
+                    items.forEach((e, i) => {
+                        if (i+1 < items.length) e.children[0].children[0].innerHTML = `${i+1}`
+                    })
+                }
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
+        const toggleAddSocial = (state) => {
+            const form = document.getElementById('add-social-form')
+            form.style.display = state ? 'flex' : 'none'
+        }
+        const previewImageSocial = (e) => {
+            const preview = document.getElementById('preview-add-social')
+            const file = e.files[0]
+            if (file) {
+                const url = URL.createObjectURL(file)
+                preview.src = url
+                preview.style.display = ''
+            }
+        }
+
         const refreshIframe = () => {
             const iframe = document.getElementById('iframe')
             iframe.src = iframe.src
@@ -1153,11 +1371,21 @@
             document.getElementById('add-partner-form').style.display = 'none'
         }
         spanPartner.onclick = () => modalPartner.style.display = "none"
+        
+        var modalSocial = document.getElementById("socials-modal")
+        var btnSocial = document.getElementById("socials-btn");
+        var spanSocial = document.getElementById("close-socials-modal");
+        btnSocial.onclick = () => {
+            modalSocial.style.display = "block"
+            document.getElementById('add-social-form').style.display = 'none'
+        }
+        spanSocial.onclick = () => modalSocial.style.display = "none"
 
         window.onclick = function(event) {
             if (event.target == modal) modal.style.display = "none";
             if (event.target == modalReview) modalReview.style.display = "none";
             if (event.target == modalPartner) modalPartner.style.display = "none";
+            if (event.target == modalSocial) modalSocial.style.display = "none";
         }
     </script>
 

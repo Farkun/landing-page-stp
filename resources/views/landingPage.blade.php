@@ -339,9 +339,9 @@
                 <h3 class="text-xl font-bold mb-4">POLITEKNIK BOGOR</h3>
                 <p class="text-sm mb-4">Penerimaan Mahasiswa Baru Sekolah Tinggi Pariwisata Bogor.</p>
                 <div class="flex space-x-4">
-                    <a href="#" class="hover:text-red-200">Facebook</a>
-                    <a href="#" class="hover:text-red-200">TW</a>
-                    <a href="#" class="hover:text-red-200">IG</a>
+                    @foreach ($socials as $soc)
+                        <a href="{{ $soc->url }}" target="_blank" class="w-8 h-8 hover:text-red-200"><img src="{{ $soc->image }}" alt=""></a>
+                    @endforeach
                 </div>
             </div>
             <div>
@@ -363,12 +363,10 @@
             </div>
             <div>
                 <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
-                <p class="text-sm">Jl. KH. R. Abdullah Bin Nuh Jl. Yasmin Raya No.16A, RT.01/RW.04,
-                            Curugmekar,</p>
-                <p class="text-sm">Kec. Bogor Bar. Kota Bogor, Jawa Barat 16113</p>
+                <p class="text-sm">{{ $app_setting->address }}</p>
                 <br>
-                <p class="text-sm">Email: info@poltekbogor.ac.id</p>
-                <p class="text-sm">Phone: 0811-1162-647</p>
+                <p class="text-sm">Email: {{ $app_setting->email }}</p>
+                <p class="text-sm">Phone: {{ $app_setting->phone }}</p>
             </div>
         </div>
         <div class="text-center text-sm mt-8 pt-8" style="border-top: 1px solid {{ $app_setting->secondary_color }};">
