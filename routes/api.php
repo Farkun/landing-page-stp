@@ -5,6 +5,7 @@ use App\Http\Controllers\HeroCarouselController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\ResourceLinkController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SocialController;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +37,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/add-socials', [SocialController::class, 'store']);
     Route::delete('/delete-socials/{id}', [SocialController::class, 'destroy']);
+
+    Route::post('/add-resource', [ResourceLinkController::class, 'addResource']);
+    Route::delete('/delete-resource/{id}', [ResourceLinkController::class, 'deleteResource']);
+    Route::post('/add-quick-link', [ResourceLinkController::class, 'addQuickLink']);
+    Route::delete('/delete-quick-link/{id}', [ResourceLinkController::class, 'deleteQuickLink']);
 });
