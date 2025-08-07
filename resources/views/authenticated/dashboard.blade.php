@@ -274,7 +274,9 @@
         }
         #carousels-btn,
         #partners-btn,
-        #socials-btn {
+        #socials-btn,
+        #quick-link-btn,
+        #resource-btn {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -286,7 +288,9 @@
         }
         #carousels-btn:hover,
         #partners-btn:hover,
-        #socials-btn:hover {
+        #socials-btn:hover,
+        #quick-link-btn:hover,
+        #resource-btn:hover {
             color: #2a2a2a;
             background-color: #fffffa;
         }
@@ -536,6 +540,20 @@
                     </div>
                 </div>
 
+                <div>
+                    <button class="sidebar-item" onclick="toggleSidebarItem(this)"><span>Quick Links & Resources</span><span>&#11207;</span></button>
+                    <div style="display: none; flex-direction: column;">
+                        <div class="sidebar-subitem">
+                            <div style="width: 100%;padding-bottom: 5px;">
+                                <button id="quick-link-btn"><label style="font-size: 16px;">Quick Links</label><span>&#11208;</span></button>
+                            </div>
+                            <div style="width: 100%;padding-bottom: 5px;">
+                                <button id="resource-btn"><label style="font-size: 16px;">Resources</label><span>&#11208;</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="content">
@@ -741,6 +759,106 @@
                     <div style="margin: 10px 0 0 0;display:flex;justify-content:flex-end; gap: 5px;">
                         <button class="btn" style="background-color: #22aa2a;color:#fffffa;" onclick="addSocial()">Submit</button>
                         <button class="btn" style="background-color:#888;color:#fffffa;" onclick="toggleAddSocial(false)">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="quick-link-modal" class="modal">
+        <div class="modal-content">
+            <div>
+                <div class="close" id="close-quick-link-modal">&times;</div>
+            </div>
+            <div style="
+                width: 100%;
+                max-height: 80%;
+                overflow-y: scroll;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+            ">
+                <table style="width: 100%;border-collapse: collapse;" id="quick-link-table">
+                    <tbody id="quick-link-item-container">
+                        @foreach ($quick_links as $ql)
+                            <tr>
+                                <td>
+                                    <button class="btn" style="background-color:#dd0000;padding: 3px 6px;border-radius:5px;font-size:12px;color:white;" onclick="deleteQuickLink(this, '/api/delete-quick-link/{{ Crypt::encryptString($ql->id) }}')">x</button>
+                                </td>
+                                <td>{{ $ql->name }}</td>
+                                <td>{{ $ql->url }}</td>
+                            </tr>
+                        @endforeach
+                        <tr>
+                            <td colspan="3" style="padding-top: 15px;">
+                                <button id="add-quick-link-btn" style="width:100%;background-color:#888;border-radius:10px;font-size:24px;color:white;" onclick="toggleAddQuickLink(true)">
+                                    +
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div style="display:flex;justify-content:center;">
+                <div style="width:50%;display:none;flex-direction:column;color:#2a2a2a" id="add-quick-link-form">
+                    <label for="">Name</label>
+                    <input type="text" name="name" style="color: #2a2a2a;border: 1px solid #2a2a2a;">
+                    <label for="">URL</label>
+                    <input type="text" name="url" style="color: #2a2a2a;border: 1px solid #2a2a2a;">
+                    <div style="margin: 10px 0 0 0;display:flex;justify-content:flex-end; gap: 5px;">
+                        <button class="btn" style="background-color: #22aa2a;color:#fffffa;" onclick="addQuickLink()">Submit</button>
+                        <button class="btn" style="background-color:#888;color:#fffffa;" onclick="toggleAddQuickLink(false)">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="resource-modal" class="modal">
+        <div class="modal-content">
+            <div>
+                <div class="close" id="close-resource-modal">&times;</div>
+            </div>
+            <div style="
+                width: 100%;
+                max-height: 80%;
+                overflow-y: scroll;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+            ">
+                <table style="width: 100%;border-collapse: collapse;" id="resource-table">
+                    <tbody id="resource-item-container">
+                        @foreach ($resources as $rs)
+                            <tr>
+                                <td>
+                                    <button class="btn" style="background-color:#dd0000;padding: 3px 6px;border-radius:5px;font-size:12px;color:white;" onclick="deleteResource(this, '/api/delete-resource/{{ Crypt::encryptString($rs->id) }}')">x</button>
+                                </td>
+                                <td>{{ $rs->name }}</td>
+                                <td>{{ $rs->url }}</td>
+                            </tr>
+                        @endforeach
+                        <tr>
+                            <td colspan="3" style="padding-top: 15px;">
+                                <button id="add-resource-btn" style="width:100%;background-color:#888;border-radius:10px;font-size:24px;color:white;" onclick="toggleAddResource(true)">
+                                    +
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div style="display:flex;justify-content:center;">
+                <div style="width:50%;display:none;flex-direction:column;color:#2a2a2a" id="add-resource-form">
+                    <label for="">Name</label>
+                    <input type="text" name="name" style="color: #2a2a2a;border: 1px solid #2a2a2a;">
+                    <label for="">URL</label>
+                    <input type="text" name="url" style="color: #2a2a2a;border: 1px solid #2a2a2a;">
+                    <div style="margin: 10px 0 0 0;display:flex;justify-content:flex-end; gap: 5px;">
+                        <button class="btn" style="background-color: #22aa2a;color:#fffffa;" onclick="addResource()">Submit</button>
+                        <button class="btn" style="background-color:#888;color:#fffffa;" onclick="toggleAddResource(false)">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -1327,6 +1445,136 @@
                 preview.style.display = ''
             }
         }
+        
+        const toggleAddQuickLink = (state) => {
+            const form = document.getElementById('add-quick-link-form')
+            form.style.display = state ? 'flex' : 'none'
+        }
+        const addQuickLink = async () => {
+            const form = document.getElementById('add-quick-link-form')
+            const inputs = [...form.getElementsByTagName('input')]
+            try {
+                const formData = {};
+                inputs.forEach(e => {
+                    if (e.value == null || e.value == '') {
+                        alert('Form belum lengkap');
+                        return;
+                    } else formData[e.name] = e.value
+                })
+                const response = await fetch('/api/add-quick-link', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                const data = await response.json()
+                if (data?.payload) {
+                    refreshIframe()
+                    inputs.forEach(e => {e.value = ''})
+                    const container = document.getElementById("quick-link-item-container")
+                    const btn = document.getElementById("add-quick-link-btn").parentElement.parentElement
+                    const count = container.children.length
+                    const newElement = document.createElement('tr')
+                    newElement.innerHTML = `
+                    <td>
+                        <button class="btn" style="background-color:#dd0000;padding: 3px 6px;border-radius:5px;font-size:12px;color:white;" onclick="deleteQuickLink(this, '/api/delete-quick-link/${data.payload.encrypted_id}')">x</button>
+                    </td>
+                    <td>${ data.payload.name }</td>
+                    <td>${ data.payload.url }</td>
+                    `
+                    btn.before(newElement)
+                    newElement.append()
+                }
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
+        const deleteQuickLink = async (e, route) => {
+            try {
+                const response = await fetch(route, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json'
+                    }
+                })
+                const data = await response.json()
+                if (data?.payload) {
+                    refreshIframe()
+                    e.parentElement.parentElement.remove()
+                }
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
+        
+        const toggleAddResource = (state) => {
+            const form = document.getElementById('add-resource-form')
+            form.style.display = state ? 'flex' : 'none'
+        }
+        const addResource = async () => {
+            const form = document.getElementById('add-resource-form')
+            const inputs = [...form.getElementsByTagName('input')]
+            try {
+                const formData = {};
+                inputs.forEach(e => {
+                    if (e.value == null || e.value == '') {
+                        alert('Form belum lengkap');
+                        return;
+                    } else formData[e.name] = e.value
+                })
+                const response = await fetch('/api/add-resource', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                const data = await response.json()
+                if (data?.payload) {
+                    refreshIframe()
+                    inputs.forEach(e => {e.value = ''})
+                    const container = document.getElementById("resource-item-container")
+                    const btn = document.getElementById("add-resource-btn").parentElement.parentElement
+                    const count = container.children.length
+                    const newElement = document.createElement('tr')
+                    newElement.innerHTML = `
+                    <td>
+                        <button class="btn" style="background-color:#dd0000;padding: 3px 6px;border-radius:5px;font-size:12px;color:white;" onclick="deleteResource(this, '/api/delete-resource/${data.payload.encrypted_id}')">x</button>
+                    </td>
+                    <td>${ data.payload.name }</td>
+                    <td>${ data.payload.url }</td>
+                    `
+                    btn.before(newElement)
+                    newElement.append()
+                }
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
+        const deleteResource = async (e, route) => {
+            try {
+                const response = await fetch(route, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json'
+                    }
+                })
+                const data = await response.json()
+                if (data?.payload) {
+                    refreshIframe()
+                    e.parentElement.parentElement.remove()
+                }
+            } catch (err) {
+                console.error(err.message)
+            }
+        }
 
         const refreshIframe = () => {
             const iframe = document.getElementById('iframe')
@@ -1380,12 +1628,32 @@
             document.getElementById('add-social-form').style.display = 'none'
         }
         spanSocial.onclick = () => modalSocial.style.display = "none"
+        
+        var modalQuickLink = document.getElementById("quick-link-modal")
+        var btnQuickLink = document.getElementById("quick-link-btn");
+        var spanQuickLink = document.getElementById("close-quick-link-modal");
+        btnQuickLink.onclick = () => {
+            modalQuickLink.style.display = "block"
+            document.getElementById('add-quick-link-form').style.display = 'none'
+        }
+        spanQuickLink.onclick = () => modalQuickLink.style.display = "none"
+        
+        var modalResource = document.getElementById("resource-modal")
+        var btnResource = document.getElementById("resource-btn");
+        var spanResource = document.getElementById("close-resource-modal");
+        btnResource.onclick = () => {
+            modalResource.style.display = "block"
+            document.getElementById('add-resource-form').style.display = 'none'
+        }
+        spanResource.onclick = () => modalResource.style.display = "none"
 
         window.onclick = function(event) {
             if (event.target == modal) modal.style.display = "none";
             if (event.target == modalReview) modalReview.style.display = "none";
             if (event.target == modalPartner) modalPartner.style.display = "none";
             if (event.target == modalSocial) modalSocial.style.display = "none";
+            if (event.target == modalQuickLink) modalQuickLink.style.display = "none";
+            if (event.target == modalResource) modalResource.style.display = "none";
         }
     </script>
 

@@ -7,6 +7,8 @@ use App\Models\CarouselImage;
 use App\Models\Hero;
 use App\Models\Document;
 use App\Models\Partner;
+use App\Models\QuickLink;
+use App\Models\Resource;
 use App\Models\Review;
 use App\Models\Social;
 use Illuminate\Http\Request;
@@ -21,6 +23,8 @@ class LandingPageController extends Controller
         $carousel_image = CarouselImage::get();
         $partners = Partner::get();
         $socials = Social::get();
+        $resources = Resource::get();
+        $quick_links = QuickLink::get();
         return view('landingPage', [
             'app_setting' => $app_setting,
             'hero' => $hero,
@@ -29,6 +33,8 @@ class LandingPageController extends Controller
             'carousel_image' => $carousel_image,
             'partners' => $partners,
             'socials' => $socials,
+            'resources' => $resources,
+            'quick_links' => $quick_links,
         ]);
     }
 }
