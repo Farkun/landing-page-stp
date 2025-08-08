@@ -185,84 +185,23 @@
 
     <section class="py-16" id="tahapan" style="background-color:{{ $app_setting->primary_color }};color:{{ $app_setting->primary_content_color }};">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-12">Tahapan Seleksi PMB STP Bogor</h2>
+            @if ($step_title)
+                <h2 class="text-4xl font-bold text-center mb-12">{{ $step_title->title }}</h2>
+            @endif
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
-                    <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                @foreach ($steps_with_description as $step)
+                    <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
+                        <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
+                            <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">{!! nl2br(e($step->description)) !!}</h3>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Pendaftaran atau Regristasi</h3>
-                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
-                    <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Isi Formulir</h3>
-                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
-                    <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Bayar Pendaftaran</h3>
-                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
-                    <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Isi Biodata</h3>
-                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
-                    <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">
-                        Ujian Online - Jalur test
-                        <br>
-                        Upload Berkas - Jalur tanpa test
-                    </h3>
-                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
-                    <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Pengumuman Hasil Ujian Online</h3>
-                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                </div>
+                @endforeach
             </div>
         </div>
     </section>

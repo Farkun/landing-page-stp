@@ -6,6 +6,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\StepController;
 use App\Http\Controllers\SocialController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-partners', [PartnerController::class, 'get']);
     Route::post('/add-partners', [PartnerController::class, 'store']);
     Route::delete('/delete-partners/{id}', [PartnerController::class, 'delete']);
+
+    Route::get('/get-step', [StepController::class, 'get']);
+    Route::post('/add-step', [StepController::class, 'store']);
+    Route::put('/update-step/{id}', [StepController::class, 'update']);
+    Route::delete('/delete-step/{id}', [StepController::class, 'delete']);
 
     Route::get('/get-reviews', [ReviewController::class, 'get']);
     Route::post('/add-reviews', [ReviewController::class, 'store']);

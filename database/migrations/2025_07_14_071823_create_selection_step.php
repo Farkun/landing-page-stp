@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('selection_step', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
             $table->text('image')->nullable();
-            $table->text('url');
+            $table->text('url')->nullable();
         });
     }
 
