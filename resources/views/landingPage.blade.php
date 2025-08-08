@@ -286,18 +286,17 @@
             <div>
                 <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
                 <ul>
-                    <li><a href="#" class="hover:text-red-200">Portal Siakad (Mahasiswa)</a></li>
-                    <li><a href="#" class="hover:text-red-200">Portal Siakad (Orang Tua)</a></li>
-                    <li><a href="#" class="hover:text-red-200">Tutorial Siakad Student</a></li>
-                    <li><a href="#" class="hover:text-red-200">Contact Us</a></li>
+                    @foreach ($quick_links as $link)
+                        <li><a href="{{ $link->url }}" target="_blank" class="hover:text-red-200">{{ $link->name }}</a></li>
+                    @endforeach
                 </ul>
             </div>
             <div>
                 <h4 class="text-lg font-semibold mb-4">Resources</h4>
                 <ul>
-                    <li><a href="#" class="hover:text-red-200">Student Portal</a></li>
-                    <li><a href="#" class="hover:text-red-200">Faculty Login</a></li>
-                    <li><a href="#" class="hover:text-red-200">Library</a></li>
+                    @foreach ($resources as $rs)
+                        <li><a href="{{ $rs->url }}" target="_blank" class="hover:text-red-200">{{ $rs->name }}</a></li>
+                    @endforeach
                 </ul>
             </div>
             <div>
