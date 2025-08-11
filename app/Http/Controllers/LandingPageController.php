@@ -11,6 +11,7 @@ use App\Models\QuickLink;
 use App\Models\Resource;
 use App\Models\Review;
 use App\Models\Social;
+use App\Models\SelectionStep;
 use Illuminate\Http\Request;
 
 class LandingPageController extends Controller
@@ -20,9 +21,16 @@ class LandingPageController extends Controller
         $hero = Hero::first();
         $documents = Document::orderBy('id')->get();
         $reviews = Review::all();
+        $selection_steps = SelectionStep::all();
         $carousel_image = CarouselImage::get();
         $partners = Partner::get();
         $socials = Social::get();
+
+        $step_title = $selection_steps->firstWhere('title', '!=', null);
+
+        $steps_with_description = $selection_steps->filter(function ($item) {
+            return $item->description !== null;
+        });
         $resources = Resource::get();
         $quick_links = QuickLink::get();
         return view('landingPage', [
@@ -33,6 +41,8 @@ class LandingPageController extends Controller
             'carousel_image' => $carousel_image,
             'partners' => $partners,
             'socials' => $socials,
+            'step_title' => $step_title,
+            'steps_with_description' => $steps_with_description,
             'resources' => $resources,
             'quick_links' => $quick_links,
         ]);

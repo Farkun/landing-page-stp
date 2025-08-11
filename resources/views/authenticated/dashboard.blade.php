@@ -505,6 +505,72 @@
                 </div>
 
                 <div>
+                    <button class="sidebar-item" onclick="toggleSidebarItem(this)">
+                        <span>Selection Step Section</span><span>&#11207;</span>
+                    </button>
+
+                    <div style="display: none; flex-direction: column;">
+
+                        {{-- Dropdown untuk pilih Review berdasarkan ID --}}
+                        <div class="sidebar-subitem">
+                            <label for="review-select">Pilih Step</label>
+                            <select id="review-select" onchange="handleSelectStep(this)">
+                                @foreach ($selection_steps as $selection_step)
+                                    <option value="{{ $selection_step->id }}">
+                                        {{ $loop->first ? 'Title' : '#' . ($loop->iteration - 1) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Form Edit Review --}}
+                        <div id="selection_step-form">
+                            <div class="sidebar-subitem">
+                                <label>Title</label>
+                                <input 
+                                    type="text" 
+                                    id="selection_step-title" 
+                                    name="selection_step-title" 
+                                    data-id="" 
+                                    onchange="handleChangeStep(this)">
+                            </div>
+                            <div class="sidebar-subitem">
+                                <label>Description</label>
+                                <input 
+                                    type="text" 
+                                    id="selection_step-description" 
+                                    name="selection_step-description" 
+                                    data-id="" 
+                                    onchange="handleChangeStep(this)">
+                            </div>
+
+                            <div class="sidebar-subitem">
+                                <label>Url</label>
+                                <textarea 
+                                    id="selection_step-url" 
+                                    name="selection_step-url" 
+                                    data-id="" 
+                                    onchange="handleChangeStep(this)" 
+                                    onkeydown="tabTextarea(this)"></textarea>
+                            </div>
+                            <div class="sidebar-subitem">
+                                <!-- Tombol untuk buka modal -->
+                                <button id="btnAddStep" class="btn-add-step">+ Tambah Step</button>
+                            </div>
+
+                            <!-- Tombol Delete -->
+                            <div class="sidebar-subitem" id="delete-step-wrapper" style="display:none;">
+                                <button onclick="deleteStep()" class="btn-delete-step" style="background-color:red;color:white;">
+                                    Hapus Step
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </div>
+    
+                </div>
+
+                <div>
                     <button class="sidebar-item" onclick="toggleSidebarItem(this)"><span>Partners Section</span><span>&#11207;</span></button>
                     <div style="display: none; flex-direction: column;">
                         <div class="sidebar-subitem">
@@ -632,6 +698,31 @@
                 <div class="form-group">
                     <label for="add-review-message">Pesan</label>
                     <textarea name="message" id="add-review-message" rows="4" required></textarea>
+                </div>
+
+                <button type="submit">Simpan</button>
+            </form>
+        </div>
+    </div>
+    <div id="modalAddStep" class="modal-review">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 style="text-align:center; margin-bottom: 15px;">Tambah Selection Step</h3>
+
+            <form id="addStepForm">
+                <div class="form-group">
+                    <label for="add-selection_step-description">Description<span style="color:red;">*</span></label>
+                    <input type="text" name="description" id="add-selection_step-description" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="add-selection_step-image">Image</label>
+                    <input type="file" name="image" id="add-selection_step-image" accept="image/*" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="add-selection_step-url">Url</label>
+                    <input type="text" name="url" id="add-selection_step-url" required>
                 </div>
 
                 <button type="submit">Simpan</button>
@@ -1189,6 +1280,133 @@
             }
         }
 
+        let selection_steps = @json($selection_steps);
+
+        function handleSelectStep(select) {
+            const id = parseInt(select.value);
+            const selection_step = selection_steps.find(r => r.id === id);
+
+            if (selection_step) {
+                // Isi form dengan data review
+                document.getElementById('selection_step-title').value = selection_step.title ?? '';
+                document.getElementById('selection_step-description').value = selection_step.description ?? '';
+                // document.getElementById('selection_step-image').value = selection_step.image ?? '';
+                document.getElementById('selection_step-url').value = selection_step.url ?? '';
+
+                // Set data-id agar handleChangeReview & delete tahu review mana yang diupdate
+                document.getElementById('selection_step-title').dataset.id = id;
+                document.getElementById('selection_step-description').dataset.id = id;
+                document.getElementById('selection_step-url').dataset.id = id;
+
+                // Tampilkan tombol delete
+                document.getElementById('delete-step-wrapper').style.display = 'block';
+            } else {
+                // Kosongkan form
+                // document.getElementById('selection_step-title').value = '';
+                document.getElementById('selection_step-description').value = '';
+                document.getElementById('selection_step-image').value = '';
+                document.getElementById('selection_step-url').value = '';
+
+                // Kosongkan data-id
+                // document.getElementById('selection_step-title').dataset.id = '';
+                document.getElementById('selection_step-description').dataset.id = '';
+                document.getElementById('selection_step-image').dataset.id = '';
+                document.getElementById('selection_step-url').dataset.id = '';
+
+                // Sembunyikan tombol delete
+                document.getElementById('delete-step-wrapper').style.display = 'none';
+            }
+        }
+
+
+        async function handleChangeStep(input) {
+            const id = input.dataset.id;
+            if (!id) return; // kalau belum pilih review, jangan kirim
+
+            let field = input.id.replace('selection_step-', '');
+
+            const value = input.value;
+
+            try {
+                const response = await fetch(`/api/update-step/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ [field]: value })
+                });
+
+                const data = await response.json();
+                if (data?.payload) refreshIframe();
+            } catch (err) {
+                console.error(err.message);
+            }
+        }
+
+        document.getElementById('addStepForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('description', document.getElementById('add-selection_step-description').value);
+            formData.append('image', document.getElementById('add-selection_step-image').files[0]);
+            formData.append('url', document.getElementById('add-selection_step-url').value);
+
+            try {
+                const response = await fetch('/api/add-step', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+                console.log('Add Review Response:', data);
+
+                if (data?.payload) {
+                    alert('Step berhasil ditambahkan!');
+                    refreshIframe();
+                    modal.style.display = "none";
+                    this.reset(); // reset form setelah submit
+                } else {
+                    alert('Gagal menambah step.');
+                }
+
+            } catch (err) {
+                console.error(err.message);
+                alert('Terjadi kesalahan.');
+            }
+        });
+
+        async function deleteStep() {
+            const id = document.getElementById('selection_step-description').dataset.id;
+            if (!id) return;
+
+            if (!confirm('Yakin ingin menghapus step ini?')) return;
+
+            try {
+                const response = await fetch(`/api/delete-step/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        "Authorization": `Bearer ${apiToken}`,
+                        "Accept": "application/json",
+                    },
+                });
+
+                if (response.ok) {
+                    alert('step berhasil dihapus');
+                    refreshIframe(); // supaya UI diperbarui
+                } else {
+                    alert('Gagal menghapus step');
+                }
+            } catch (err) {
+                console.error(err.message);
+            }
+        }
+
         const handleChangeDocument = async (e) => {
             const id = e.dataset.id; // ID document
             const parts = e.name.split('-');
@@ -1610,6 +1828,12 @@
         var spanReview = modalReview.getElementsByClassName("close")[0];
         btnAddReview.onclick = () => modalReview.style.display = "block"
         spanReview.onclick = () => modalReview.style.display = "none"
+
+        var modalStep = document.getElementById("modalAddStep");
+        var btnAddStep = document.getElementById("btnAddStep");
+        var spanStep = modalStep.getElementsByClassName("close")[0];
+        btnAddStep.onclick = () => modalStep.style.display = "block"
+        spanStep.onclick = () => modalStep.style.display = "none"
         
         var modalPartner = document.getElementById("partners-modal")
         var btnPartner = document.getElementById("partners-btn");
@@ -1650,6 +1874,7 @@
         window.onclick = function(event) {
             if (event.target == modal) modal.style.display = "none";
             if (event.target == modalReview) modalReview.style.display = "none";
+            if (event.target == modalStep) modalStep.style.display = "none";
             if (event.target == modalPartner) modalPartner.style.display = "none";
             if (event.target == modalSocial) modalSocial.style.display = "none";
             if (event.target == modalQuickLink) modalQuickLink.style.display = "none";
