@@ -28,14 +28,15 @@ class PartnerController extends Controller
         if (!File::exists($target_dir)) File::makeDirectory($target_dir);
         $request->logo->move($target_dir, $filename);
         $logo_url = '/storage/partners/'.$filename;
-        Partner::create([
+        $partner = Partner::create([
             'name' => $request->name,
             'url' => $request->url,
             'logo' => $logo_url
         ]);
+        $partner->encrypted_id = Crypt::encryptString($partner->id);
         return response()->json([
             'message' => 'CREATED',
-            'payload' => true
+            'payload' => $partner
         ], 201);
     }
 
@@ -48,8 +49,8 @@ class PartnerController extends Controller
         if (File::exists($logo_path)) File::delete($logo_path);
         $partner->delete();
         return response()->json([
-            'message' => 'NO CONTENT',
+            'message' => 'OK',
             'payload' => true
-        ], 204);
+        ], 200);
     }
 }

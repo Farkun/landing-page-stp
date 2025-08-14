@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Politeknik Bogor - Official Website</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <style>
         .running {
@@ -185,127 +186,73 @@
 
     <section class="py-16" id="tahapan" style="background-color:{{ $app_setting->primary_color }};color:{{ $app_setting->primary_content_color }};">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-12">Tahapan Seleksi PMB STP Bogor</h2>
+            @if ($step_title)
+                <h2 class="text-4xl font-bold text-center mb-12">{{ $step_title->title }}</h2>
+            @endif
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
-                    <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
+                @foreach ($steps_with_description as $step)
+                    <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
+                        <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
+                            <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">{!! nl2br(e($step->description)) !!}</h3>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Pendaftaran atau Regristasi</h3>
-                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
-                    <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Isi Formulir</h3>
-                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
-                    <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Bayar Pendaftaran</h3>
-                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
-                    <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Isi Biodata</h3>
-                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
-                    <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">
-                        Ujian Online - Jalur test
-                        <br>
-                        Upload Berkas - Jalur tanpa test
-                    </h3>
-                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                </div>
-                <div class="p-6 rounded-lg shadow-md flex flex-col items-center text-center" style="background-color:{{ $app_setting->secondary_color }};" data-aos="zoom-out">
-                    <div class="w-24 h-24 bg-gray-400 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-gray-200" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-4 4 4 4-4V5h-2v7l-2-2-4 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Pengumuman Hasil Ujian Online</h3>
-                    <!-- <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
 
     <section class="bg-white py-16">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-12" style="color:{{ $app_setting->primary_color }};">Testimoni Alumni</h2>
+            <h2 class="text-4xl font-bold text-center mb-12" style="color:{{ $app_setting->primary_color }};">
+                Testimoni Alumni
+            </h2>
+            
             <div id="testimonials-carousel" class="relative">
                 <div class="overflow-hidden">
                     <div class="flex transition-transform duration-500 ease-in-out" id="testimonial-slider" data-aos="zoom-in">
-                        <div class="w-full flex-shrink-0 md:w-1/3 p-4">
-                            <div class="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-                                <div class="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4"></div>
-                                <h4 class="text-lg font-semibold">Nama Alumni 1</h4>
-                                <p class="text-gray-600 text-sm mb-2">Angkatan 2020</p>
-                                <p class="text-gray-700 italic">"Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."</p>
+
+                        @foreach ($reviews as $review)
+                            <div class="w-full flex-shrink-0 md:w-1/3 p-4">
+                                <div class="bg-gray-100 p-6 rounded-lg shadow-md text-center">
+                                     @if ($review->image)
+                                        <img src="{{ asset($review->image) }}" 
+                                            alt="{{ $review->name }}" 
+                                            class="w-20 h-20 rounded-full mx-auto mb-4 object-cover">
+                                    @else
+                                    {{-- Foto Profil (jika ada kolom image di tabel) --}}
+                                    <div class="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4"></div>
+                                    @endif
+
+                                    {{-- Nama Alumni --}}
+                                    <h4 class="text-lg font-semibold">{{ $review->name }}</h4>
+
+                                    {{-- Angkatan (jika kosong, tampilkan '-') --}}
+                                    <p class="text-gray-600 text-sm mb-2">
+                                        Angkatan {{ $review->graduated_at ?? '-' }}
+                                    </p>
+
+                                    {{-- Pesan Testimoni --}}
+                                    <p class="text-gray-700 italic">"{{ $review->message }}"</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="w-full flex-shrink-0 md:w-1/3 p-4">
-                            <div class="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-                                <div class="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4"></div>
-                                <h4 class="text-lg font-semibold">Nama Alumni 2</h4>
-                                <p class="text-gray-600 text-sm mb-2">Angkatan 2019</p>
-                                <p class="text-gray-700 italic">"Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo consequat."</p>
-                            </div>
-                        </div>
-                        <div class="w-full flex-shrink-0 md:w-1/3 p-4">
-                            <div class="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-                                <div class="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4"></div>
-                                <h4 class="text-lg font-semibold">Nama Alumni 3</h4>
-                                <p class="text-gray-600 text-sm mb-2">Angkatan 2021</p>
-                                <p class="text-gray-700 italic">"Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur."</p>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
-                <button class="absolute top-1/2 left-0 -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-lg"
-                    id="prev-testimonial">‹</button>
-                <button class="absolute top-1/2 right-0 -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-lg"
-                    id="next-testimonial">›</button>
+
+                {{-- Tombol Navigasi Carousel --}}
+                @if ($reviews->count() > 1)
+                    <button class="absolute top-1/2 left-0 -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-lg"
+                        id="prev-testimonial">‹</button>
+                    <button class="absolute top-1/2 right-0 -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-lg"
+                        id="next-testimonial">›</button>
+                @endif
             </div>
         </div>
     </section>
@@ -315,18 +262,12 @@
             <h2 class="text-4xl font-bold text-center mb-12" style="color:{{ $app_setting->primary_color }};">Mitra</h2>
             <div class="running">
                 <div class="flex gap-8 items-center justify-center overflow-x-hidden" data-aos="fade-up">
-                    <img src="https://thumbs.dreamstime.com/b/hand-shake-logo-vector-flat-design-shaking-hands-symbol-handshake-logotype-concept-deal-partnership-icon-partner-agreement-123892727.jpg" alt="Partner Logo 1"
-                        class="h-20 object-contain">
-                    <img src="https://www.shutterstock.com/image-vector/handshake-partnership-logo-design-hand-600nw-2520743481.jpg" alt="Partner Logo 2"
-                        class="h-20 object-contain">
-                    <img src="https://t3.ftcdn.net/jpg/05/47/85/82/360_F_547858247_3pRJxIxgvDlf2HQiBlzqLfO98ncghF6J.jpg" alt="Partner Logo 3"
-                        class="h-20 object-contain">
-                    <img src="https://media.istockphoto.com/id/1369899988/vector/handshake-sign-in-the-circle-on-white-background-vector-illustration.jpg?s=612x612&w=0&k=20&c=auA4GuM2p-EmKmEgcFjIOUibPiXsuvTxfvRKB-EN7o8=" alt="Partner Logo 4"
-                        class="h-20 object-contain">
-                    <img src="https://t4.ftcdn.net/jpg/04/24/01/43/360_F_424014391_pIsVnz0NMtPcsVL5appIbqMrWu8bU6vA.jpg" alt="Partner Logo 5"
-                        class="h-20 object-contain">
-                    <img src="https://www.creativefabrica.com/wp-content/uploads/2021/05/29/Partner-Logo-Symbols-Graphics-12646980-1.png" alt="Partner Logo 6"
-                        class="h-20 object-contain">
+                    @foreach ($partners as $pt)
+                        <a href="{{ $pt->url }}" target="_blank">
+                            <img src="{{ $pt->logo }}" alt="Partner Logo 1"
+                                class="h-20 object-contain">
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -336,38 +277,35 @@
         <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
                 <h3 class="text-xl font-bold mb-4">POLITEKNIK BOGOR</h3>
-                <p class="text-sm mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p class="text-sm mb-4">Penerimaan Mahasiswa Baru Sekolah Tinggi Pariwisata Bogor.</p>
                 <div class="flex space-x-4">
-                    <a href="#" class="hover:text-red-200">FB</a>
-                    <a href="#" class="hover:text-red-200">TW</a>
-                    <a href="#" class="hover:text-red-200">IG</a>
+                    @foreach ($socials as $soc)
+                        <a href="{{ $soc->url }}" target="_blank" class="w-8 h-8 hover:text-red-200"><img src="{{ $soc->image }}" alt=""></a>
+                    @endforeach
                 </div>
             </div>
             <div>
                 <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
                 <ul>
-                    <li><a href="#" class="hover:text-red-200">About Us</a></li>
-                    <li><a href="#" class="hover:text-red-200">Admissions</a></li>
-                    <li><a href="#" class="hover:text-red-200">Academics</a></li>
-                    <li><a href="#" class="hover:text-red-200">Contact Us</a></li>
+                    @foreach ($quick_links as $link)
+                        <li><a href="{{ $link->url }}" target="_blank" class="hover:text-red-200">{{ $link->name }}</a></li>
+                    @endforeach
                 </ul>
             </div>
             <div>
                 <h4 class="text-lg font-semibold mb-4">Resources</h4>
                 <ul>
-                    <li><a href="#" class="hover:text-red-200">Student Portal</a></li>
-                    <li><a href="#" class="hover:text-red-200">Faculty Login</a></li>
-                    <li><a href="#" class="hover:text-red-200">Library</a></li>
+                    @foreach ($resources as $rs)
+                        <li><a href="{{ $rs->url }}" target="_blank" class="hover:text-red-200">{{ $rs->name }}</a></li>
+                    @endforeach
                 </ul>
             </div>
             <div>
                 <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
-                <p class="text-sm">Jl. KH. R. Abdullah Bin Nuh Jl. Yasmin Raya No.16A, RT.01/RW.04,
-                            Curugmekar,</p>
-                <p class="text-sm">Kec. Bogor Bar. Kota Bogor, Jawa Barat 16113</p>
+                <p class="text-sm">{{ $app_setting->address }}</p>
                 <br>
-                <p class="text-sm">Email: info@poltekbogor.ac.id</p>
-                <p class="text-sm">Phone: 0811-1162-647</p>
+                <p class="text-sm">Email: {{ $app_setting->email }}</p>
+                <p class="text-sm">Phone: {{ $app_setting->phone }}</p>
             </div>
         </div>
         <div class="text-center text-sm mt-8 pt-8" style="border-top: 1px solid {{ $app_setting->secondary_color }};">

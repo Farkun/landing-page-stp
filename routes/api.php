@@ -5,7 +5,10 @@ use App\Http\Controllers\HeroCarouselController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\ResourceLinkController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\StepController;
+use App\Http\Controllers\SocialController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -13,6 +16,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/tes', [AppSettingController::class, 'tes']);
     Route::put('/update-color', [AppSettingController::class, 'updateColors']);
     Route::put('/update-app-name', [AppSettingController::class, 'updateAppName']);
+    Route::put('/update-contact-address', [AppSettingController::class, 'updateContactAndAddress']);
     Route::put('/update-hero-heading', [HeroCarouselController::class, 'updateHeading']);
     Route::put('/update-hero-body', [HeroCarouselController::class, 'updateBody']);
     Route::put('/update-hero-button-label', [HeroCarouselController::class, 'updateButtonLabel']);
@@ -25,9 +29,23 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/get-partners', [PartnerController::class, 'get']);
     Route::post('/add-partners', [PartnerController::class, 'store']);
-    Route::delete('/delete-partners', [PartnerController::class, 'delete']);
+    Route::delete('/delete-partners/{id}', [PartnerController::class, 'delete']);
+
+    Route::get('/get-step', [StepController::class, 'get']);
+    Route::post('/add-step', [StepController::class, 'store']);
+    Route::put('/update-step/{id}', [StepController::class, 'update']);
+    Route::delete('/delete-step/{id}', [StepController::class, 'delete']);
 
     Route::get('/get-reviews', [ReviewController::class, 'get']);
     Route::post('/add-reviews', [ReviewController::class, 'store']);
-    Route::delete('/delete-reviews', [ReviewController::class, 'delete']);
+    Route::put('/update-reviews/{id}', [ReviewController::class, 'update']);
+    Route::delete('/delete-reviews/{id}', [ReviewController::class, 'delete']);
+
+    Route::post('/add-socials', [SocialController::class, 'store']);
+    Route::delete('/delete-socials/{id}', [SocialController::class, 'destroy']);
+
+    Route::post('/add-resource', [ResourceLinkController::class, 'addResource']);
+    Route::delete('/delete-resource/{id}', [ResourceLinkController::class, 'deleteResource']);
+    Route::post('/add-quick-link', [ResourceLinkController::class, 'addQuickLink']);
+    Route::delete('/delete-quick-link/{id}', [ResourceLinkController::class, 'deleteQuickLink']);
 });

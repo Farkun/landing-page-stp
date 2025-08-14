@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('review', function (Blueprint $table) {
+        Schema::create('quick_link', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('image')->nullable();
-            $table->string('graduated_at');
-            $table->text('message');
+            $table->text('url');
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('review');
+        Schema::dropIfExists('quick_link');
     }
 };

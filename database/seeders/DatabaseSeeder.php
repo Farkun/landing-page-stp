@@ -18,7 +18,13 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             HeroSeeder::class,
             DocumentSeeder::class,
+            ReviewSeeder::class,
             CarouselImageSeeder::class,
+            PartnerSeeder::class,
+            SocialSeeder::class,
+            StepSeeder::class,
+            ResourceSeeder::class,
+            QuickLinkSeeder::class,
         ]);
     }
 }
