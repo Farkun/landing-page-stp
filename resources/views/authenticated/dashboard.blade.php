@@ -624,7 +624,7 @@
         </div>
         <div class="content">
             <div>
-                <iframe src="/landingPage" frameborder="0" style="
+                <iframe src="/" frameborder="0" style="
                     height: 100%;
                     width: calc(100% - 5px);
                 " id="iframe"></iframe>
