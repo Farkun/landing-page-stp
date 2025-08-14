@@ -876,8 +876,20 @@
                                 <td>
                                     <button class="btn" style="background-color:#dd0000;padding: 3px 6px;border-radius:5px;font-size:12px;color:white;" onclick="deleteQuickLink(this, '/api/delete-quick-link/{{ Crypt::encryptString($ql->id) }}')">x</button>
                                 </td>
-                                <td>{{ $ql->name }}</td>
-                                <td>{{ $ql->url }}</td>
+                                <td>
+                                    <input type="text" value="{{ $ql->name }}" 
+                                        data-id="{{ Crypt::encryptString($ql->id) }}" 
+                                        data-field="name" style="width:100%;border:1px solid #ccc;padding:3px;color:white;background-color:#333;">
+                                </td>
+                                <td>
+                                    <input type="text" value="{{ $ql->url }}" 
+                                        data-id="{{ Crypt::encryptString($ql->id) }}" 
+                                        data-field="url" style="width:100%;border:1px solid #ccc;padding:3px;color:white;background-color:#333;">
+                                </td>
+                                <td>
+                                    <button class="btn" style="background-color:#22aa2a;padding: 3px 6px;border-radius:5px;font-size:12px;color:white;" 
+                                            onclick="updateQuickLink(this)">Update</button>
+                                </td>
                             </tr>
                         @endforeach
                         <tr>
@@ -926,8 +938,20 @@
                                 <td>
                                     <button class="btn" style="background-color:#dd0000;padding: 3px 6px;border-radius:5px;font-size:12px;color:white;" onclick="deleteResource(this, '/api/delete-resource/{{ Crypt::encryptString($rs->id) }}')">x</button>
                                 </td>
-                                <td>{{ $rs->name }}</td>
-                                <td>{{ $rs->url }}</td>
+                                <td>
+                                    <input type="text" value="{{ $rs->name }}" 
+                                        data-id="{{ Crypt::encryptString($rs->id) }}" 
+                                        data-field="name" style="width:100%;border:1px solid #ccc;padding:3px;color:white;background-color:#333;">
+                                </td>
+                                <td>
+                                    <input type="text" value="{{ $rs->url }}" 
+                                        data-id="{{ Crypt::encryptString($rs->id) }}" 
+                                        data-field="url" style="width:100%;border:1px solid #ccc;padding:3px;color:white;background-color:#333;">
+                                </td>
+                                <td>
+                                    <button class="btn" style="background-color:#22aa2a;padding: 3px 6px;border-radius:5px;font-size:12px;color:white;" 
+                                            onclick="updateResource(this)">Update</button>
+                                </td>
                             </tr>
                         @endforeach
                         <tr>
@@ -1710,6 +1734,44 @@
                 console.error(err.message)
             }
         }
+        const updateQuickLink = async (btn) => {
+            const row = btn.closest('tr');
+            const nameInput = row.querySelector('input[data-field="name"]');
+            const urlInput = row.querySelector('input[data-field="url"]');
+
+            const payload = {
+                name: nameInput.value.trim(),
+                url: urlInput.value.trim()
+            };
+
+            if (!payload.name || !payload.url) {
+                alert('Name dan URL tidak boleh kosong');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/update-quick-link/${nameInput.dataset.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                if (data?.payload) {
+                    alert('Quick link berhasil diupdate');
+                    refreshIframe();
+                } else {
+                    alert('Gagal update quick link');
+                }
+            } catch (err) {
+                console.error(err.message);
+            }
+        };
+
         const deleteQuickLink = async (e, route) => {
             try {
                 const response = await fetch(route, {
@@ -1775,6 +1837,45 @@
                 console.error(err.message)
             }
         }
+
+        const updateResource = async (btn) => {
+        const row = btn.closest('tr');
+        const nameInput = row.querySelector('input[data-field="name"]');
+        const urlInput = row.querySelector('input[data-field="url"]');
+
+        const payload = {
+            name: nameInput.value.trim(),
+            url: urlInput.value.trim()
+        };
+
+        if (!payload.name || !payload.url) {
+            alert('Name dan URL tidak boleh kosong');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/update-resource/${nameInput.dataset.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${apiToken}`,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+            if (data?.payload) {
+                alert('Resource berhasil diupdate');
+                refreshIframe();
+            } else {
+                alert('Gagal update Resource');
+            }
+        } catch (err) {
+            console.error(err.message);
+        }
+    };
+
         const deleteResource = async (e, route) => {
             try {
                 const response = await fetch(route, {

@@ -45,7 +45,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/delete-socials/{id}', [SocialController::class, 'destroy']);
 
     Route::post('/add-resource', [ResourceLinkController::class, 'addResource']);
+    Route::put('/update-resource/{id}', [ResourceLinkController::class, 'updateResource']);
     Route::delete('/delete-resource/{id}', [ResourceLinkController::class, 'deleteResource']);
     Route::post('/add-quick-link', [ResourceLinkController::class, 'addQuickLink']);
+    Route::put('/update-quick-link/{id}', [ResourceLinkController::class, 'updateQuickLink']);
     Route::delete('/delete-quick-link/{id}', [ResourceLinkController::class, 'deleteQuickLink']);
 });

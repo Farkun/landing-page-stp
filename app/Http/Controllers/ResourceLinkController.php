@@ -25,6 +25,32 @@ class ResourceLinkController extends Controller
         ], 201);
     }
 
+    public function updateResource(Request $request, $encryptedId)
+    {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+            $resource = Resource::findOrFail($id);
+
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'url' => 'required|url'
+            ]);
+
+            $resource->update($validated);
+
+            return response()->json([
+                'message' => 'UPDATED',
+                'payload' => [
+                    'id' => $encryptedId,
+                    'name' => $resource->name,
+                    'url' => $resource->url
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+    }
+
     public function deleteResource($id) {
         $resource = Resource::find(Crypt::decryptString($id));
         if (!$resource) return response()->json(['message' => 'NOT FOUND'], 404);
@@ -50,6 +76,33 @@ class ResourceLinkController extends Controller
             'payload' => $quick_link
         ], 201);
     }
+
+    public function updateQuickLink(Request $request, $encryptedId)
+    {
+        try {
+            $id = Crypt::decryptString($encryptedId);
+            $quickLink = QuickLink::findOrFail($id);
+
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'url' => 'required|url'
+            ]);
+
+            $quickLink->update($validated);
+
+            return response()->json([
+                'message' => 'UPDATED',
+                'payload' => [
+                    'id' => $encryptedId,
+                    'name' => $quickLink->name,
+                    'url' => $quickLink->url
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+    }
+
 
     public function deleteQuickLink($id) {
         $quick_link = QuickLink::find(Crypt::decryptString($id));
